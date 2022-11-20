@@ -2,7 +2,7 @@
   "name": "write-ing-blog",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "yarn@3.2.4",
+  "packageManager": "yarn@3.3.0",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -21,7 +21,7 @@
     "react-is": "^18.2.0",
     "styled-components": "^5.3.6",
     "styled-reset": "^4.4.2",
-    "typescript": "^4.8.4"
+    "typescript": "^4.9.3"
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.26",
