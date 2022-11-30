@@ -7,7 +7,7 @@ export const dynamic = 'auto',
   runtime = 'nodejs',
   preferredRegion = 'auto';
 
-export default function Page() {
+export default function Test() {
   return (
     <div className="h-full flex lg:flex-col">
       <div className="flex flex-col">teststse</div>
