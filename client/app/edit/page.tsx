@@ -25,6 +25,8 @@ export default function Page() {
     const editorIns = editorRef.current.getInstance();
     const contentHtml = editorIns.getHTML();
     const contentMark = editorIns.getMarkdown();
+    console.log(contentMark);
+    console.log(contentHtml);
   };
 
   return (
