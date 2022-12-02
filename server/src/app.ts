@@ -13,10 +13,9 @@ app.get('/post', (req: Request, res: Response) => {
 });
 
 app.post('/post', (req: Request, res) => {
-  const { content } = req.body.data;
-  console.log(content)
+  const { writeTime, title, content } = req.body.data.content;
   res.send('Got a POST request')
-  fs.writeFile(`../client/article/test.md`, JSON.stringify(content), (err) => console.log(err));
+  fs.writeFile(`../client/article/${title}.md`, JSON.stringify(req.body.data), (err) => console.log(err));
 })
 
 app.listen(port, () => {
