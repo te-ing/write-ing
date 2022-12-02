@@ -1,16 +1,25 @@
-import React from 'react';
+'use client';
+import { getPost, writePost } from 'api/posts.api';
+import React, { useRef } from 'react';
 
-export const dynamic = 'auto',
-  dynamicParams = true,
-  revalidate = 0,
-  fetchCache = 'auto',
-  runtime = 'nodejs',
-  preferredRegion = 'auto';
+const getTest = async () => {
+  const response = await getPost();
+  console.log(response);
+};
 
 export default function Test() {
+  const input = useRef(null);
+
+  const writeTest = async () => {
+    const response = await writePost(input.current.value);
+    console.log(response);
+  };
+
   return (
-    <div className="h-full flex lg:flex-col">
-      <div className="flex flex-col">teststse</div>
+    <div style={{ display: 'flex', flexDirection: 'column', width: '200px' }}>
+      <button onClick={getTest}>GET</button>
+      <input ref={input} type="text" placeholder="POST 값을 입력하세요" />
+      <button onClick={writeTest}>POST</button>
     </div>
   );
 }
