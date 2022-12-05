@@ -11,6 +11,7 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax/dist/toastui-edito
 import dayjs from 'dayjs';
 import styles from './edit.module.scss';
 import { writePost } from 'api/posts.api';
+import { PostEditType } from 'types/post';
 
 export default function Page() {
   const titleRef = useRef(null);
@@ -32,10 +33,12 @@ export default function Page() {
     // console.log(contentMark);
     // console.log(contentHtml);
 
-    const payload = {
-      writeTime: dayjs().format('YYYY.MM.DD HH:mm:ss'),
+    const payload: PostEditType = {
       title: titleRef.current.value,
+      subtitle: contentMark.slice(0, 30),
       content: contentMark,
+      status: 'public',
+      tag: '회고' || '스터디' || '기록',
     };
     const response = await writePost(payload);
 
@@ -44,22 +47,23 @@ export default function Page() {
   };
 
   return (
-    <>
-      <div className={styles.input_wrapper}>
-        <input ref={titleRef} type="text" className={styles.input} placeholder="제목을 입력하세요" />
+    <div className={styles.wrapper}>
+      <div className={styles.title}>
+        <input ref={titleRef} type="text" className={styles.title_input} placeholder="제목을 입력하세요" />
       </div>
-      <Editor
-        ref={editorRef}
-        initialValue="" // 글 수정 시 사용
-        initialEditType="markdown" // wysiwyg & markdown
-        hideModeSwitch={true}
-        height="500px"
-        usageStatistics={false}
-        toolbarItems={toolbarItems}
-        plugins={[colorSyntax, codeSyntaxHighlight]}
-      />
-
+      <div className={styles.editor}>
+        <Editor
+          ref={editorRef}
+          initialValue="" // 글 수정 시 사용
+          initialEditType="markdown" // wysiwyg & markdown
+          hideModeSwitch={true}
+          height="500px"
+          usageStatistics={false}
+          toolbarItems={toolbarItems}
+          plugins={[colorSyntax, codeSyntaxHighlight]}
+        />
+      </div>
       <button onClick={showContent}>Write</button>
-    </>
+    </div>
   );
 }

@@ -1,5 +1,13 @@
-.input {
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
+}
+
+.title {
+  width: 100%;
+  max-width: 875px;
   height: 40px;
   border: 1px solid lightgray;
   border-radius: 10px;
@@ -11,11 +19,17 @@
   }
 }
 
-.input_wrapper {
+.title_input {
   display: flex;
   align-items: center;
   width: 100%;
   height: 60px;
   border: 1px solid lightgray;
   background-color: #f7f9fc;
+}
+
+.editor {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
