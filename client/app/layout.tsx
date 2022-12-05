@@ -1,15 +1,17 @@
-import Image from 'next/image';
 import '@styles/globalStyles.scss';
+import Header from 'components/Header/Header';
+import styles from './layout.module.scss';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <header>
-          <Image src={'/image/cat.png'} alt="cat" width={24} height={24} />
-          글로벌 헤더
-        </header>
-        {children}
+        <div className={styles.layout_wrapper}>
+          <div className={styles.layout}>
+            <Header />
+            {children}
+          </div>
+        </div>
       </body>
     </html>
   );
