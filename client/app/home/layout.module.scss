@@ -1,0 +1,13 @@
+@use '@/styles/constants/colors';
+
+.wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.postCard_wrapper {
+  border-left: solid 2px colors.$GRAY_DARK;
+  height: 100%;
+  width: 830px;
+  padding-left: 46px;
+}
