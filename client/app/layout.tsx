@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import '@styles/globalStyles.scss';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

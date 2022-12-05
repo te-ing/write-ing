@@ -1,3 +1,5 @@
+@use '@/styles/constants/colors';
+
 .container {
   padding: 0 2rem;
 }
@@ -16,7 +18,7 @@
   display: flex;
   flex: 1;
   padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
+  border-top: 1px solid colors.$GRAY;
   justify-content: center;
   align-items: center;
 }
