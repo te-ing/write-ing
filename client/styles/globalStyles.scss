@@ -1,6 +1,7 @@
 // Global styles
 @import './base/reset';
 @import './base/more';
+@import './base/font';
 
 html,
 body {
@@ -15,5 +16,5 @@ body,
 button,
 input,
 textarea {
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: 'Anybody', sans-serif;
 }

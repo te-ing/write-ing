@@ -1,0 +1,27 @@
+@font-face {
+  font-family: 'Anybody';
+  font-weight: 300;
+  src: url('../fonts/Anybody-Light.woff') format('woff2'), url('../fonts/Anybody-Light.woff') format('woff'),
+    url('../fonts/Anybody-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Anybody';
+  font-weight: 400;
+  src: url('../fonts/Anybody-Regular.woff') format('woff2'), url('../fonts/Anybody-Regular.woff') format('woff'),
+    url('../fonts/Anybody-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Anybody';
+  font-weight: 500;
+  src: url('../fonts/Anybody-Medium.woff') format('woff2'), url('../fonts/Anybody-Medium.woff') format('woff'),
+    url('../fonts/Anybody-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Anybody';
+  font-weight: 700;
+  src: url('../fonts/Anybody-Bold.woff') format('woff2'), url('../fonts/Anybody-Bold.woff') format('woff'),
+    url('../fonts/Anybody-Bold.ttf') format('truetype');
+}
