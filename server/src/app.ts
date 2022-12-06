@@ -24,7 +24,8 @@ app.post('/post', (req: Request, res) => {
   const reqData: PostEditType = req.body.data.content;
   const Post: PostType = {
     id: 1,
-    writeTime: dayjs().format('YYYY.MM.DD HH:mm:ss'),
+    createdAt: dayjs().format('YYYY.MM.DD HH:mm:ss'),
+    updatedAt: dayjs().format('YYYY.MM.DD HH:mm:ss'),
     subtitle: reqData.subtitle || reqData.content.slice(0, 30),
     like: [],
     comment: [],

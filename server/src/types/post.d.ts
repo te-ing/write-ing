@@ -1,6 +1,7 @@
 export interface PostType {
   id: number;
-  writeTime: string;
+  createdAt: string;
+  updatedAt: string;
   title: string;
   subtitle: string;
   content: string;
