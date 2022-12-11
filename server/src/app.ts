@@ -4,6 +4,7 @@ import fs from "fs"
 import dayjs from 'dayjs';
 import { PostEditType, PostType } from './types/post';
 import { subtle } from 'crypto';
+import mysql from 'mysql2/promise';
 
 const app: Express = express();
 const port = 8080;
@@ -14,6 +15,11 @@ app.use(express.json())
 app.get('/', (req: Request, res: Response) => {
   res.send(dayjs().format('YYYY.MM.DD HH:mm:ss'));
 });
+
+app.get('/api/post', async (req: Request, res: Response) => {
+  const post = await mysql.query('postList');
+  res.send(post);
+})
 
 app.get('/post', (req: Request, res: Response) => {
   res.send('Typescript + Node.js + Express Server');
