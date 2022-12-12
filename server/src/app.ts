@@ -2,8 +2,6 @@ import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import fs from "fs"
 import dayjs from 'dayjs';
-import { PostEditType, PostType } from './types/post';
-import { subtle } from 'crypto';
 import mysql from 'mysql2/promise';
 
 const app: Express = express();
@@ -12,23 +10,34 @@ const port = 8080;
 app.use(cors())
 app.use(express.json())
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (req, res) => {
   res.send(dayjs().format('YYYY.MM.DD HH:mm:ss'));
 });
 
+const pool = mysql.createPool({
+  host: '127.0.0.1',
+  port: 3306,
+  user: 'dev01',
+  password: '1234',
+  database: 'dev',
+  connectionLimit: 10,
+  queueLimit: 0
+});
+
 app.get('/api/post', async (req: Request, res: Response) => {
-  const post = await mysql.query('postList');
-  res.send(post);
+  const connection = pool.getConnection(async (conn: Promise<any>) => conn);
+  const result = await (await connection).query('select * from post')
+  res.send(result);
 })
 
-app.get('/post', (req: Request, res: Response) => {
+app.get('/post', (req, res) => {
   res.send('Typescript + Node.js + Express Server');
 });
 
-app.post('/post', (req: Request, res) => {
+app.post('/post', (req, res) => {
   // const { writeTime, title, content } = req.body.data.content;
-  const reqData: PostEditType = req.body.data.content;
-  const Post: PostType = {
+  const reqData = req.body.data.content;
+  const Post = {
     id: 1,
     createdAt: dayjs().format('YYYY.MM.DD HH:mm:ss'),
     updatedAt: dayjs().format('YYYY.MM.DD HH:mm:ss'),
