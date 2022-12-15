@@ -1,4 +1,5 @@
 import PostContent from 'components/Post/PostContent';
+import Comments from 'components/Comments/Comments';
 import { PostType } from 'types/post';
 
 const getPost = async (params: { id: string }): Promise<PostType> => {
@@ -6,6 +7,25 @@ const getPost = async (params: { id: string }): Promise<PostType> => {
   const { article } = await response.json();
   return article;
 };
+
+const test = [
+  {
+    id: 1,
+    writeTime: 'string',
+    content: '댓글입니다',
+    author: '유저1',
+    nickname: 'string',
+    password: 'string',
+  },
+  {
+    id: 2,
+    writeTime: 'string',
+    content: '댓글이에요',
+    author: '유저2',
+    nickname: 'string',
+    password: 'string',
+  },
+];
 
 export default async function Post({ params }: { params: { id: string } }) {
   const post = await getPost(params);
@@ -15,6 +35,7 @@ export default async function Post({ params }: { params: { id: string } }) {
   return (
     <div className={''}>
       <PostContent content={post.content} />
+      <Comments comments={test} />
     </div>
   );
 }
