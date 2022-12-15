@@ -1,17 +1,20 @@
 import styles from './postCard.module.scss';
-import test1 from 'article/test1.json';
+import { PostType } from 'types/post';
+import Link from 'next/link';
 
-const PostCard = () => {
-  console.log(test1);
+const PostCard = ({ post }: { post: PostType }) => {
+  console.log(post);
   return (
-    <div className={styles.post_card}>
-      포스트카드
-      <br />
-      {test1.writeTime}
-      <br />
-      <br />
-      {test1.title}
-    </div>
+    <Link href={`/post/${post.id}`}>
+      <div className={styles.post_card}>
+        포스트카드
+        <br />
+        {post.createdAt}
+        <br />
+        <br />
+        {post.title}
+      </div>
+    </Link>
   );
 };
 

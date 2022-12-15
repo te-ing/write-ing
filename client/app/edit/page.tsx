@@ -36,7 +36,7 @@ export default function Page() {
     const payload: PostEditType = {
       title: titleRef.current.value,
       subtitle: contentMark.slice(0, 30),
-      content: contentMark,
+      content: contentHtml,
       status: 'public',
       tag: '회고' || '스터디' || '기록',
     };
@@ -44,6 +44,7 @@ export default function Page() {
 
     console.log(response);
     console.log(payload);
+    console.log(contentHtml);
   };
 
   return (

@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
-import fs from "fs"
+import fs, { readFileSync } from "fs"
 import dayjs from 'dayjs';
 import mysql from 'mysql2/promise';
 
@@ -24,14 +24,31 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-app.get('/api/post', async (req: Request, res: Response) => {
-  const connection = pool.getConnection(async (conn: Promise<any>) => conn);
-  const result = await (await connection).query('select * from post')
-  res.send(result);
-})
+// app.get('/api/post', async (req: Request, res: Response) => {
+//   const connection = pool.getConnection( async (conn: Promise<any>): Promise<any> => conn);
+//   const result = await (await connection).query('select * from post')
+//   res.send(result);
+// })
 
-app.get('/post', (req, res) => {
-  res.send('Typescript + Node.js + Express Server');
+app.get('/posts', (req, res) => {
+  try {
+    const articleDir = fs.readdirSync('article'); // 디렉토리를 읽어온다
+    const article = articleDir.map((file) => JSON.parse((readFileSync(`article/${file}`, { encoding: 'utf8'})).toString()));
+    res.json({ ok: true, article });
+  } catch (err) {
+    res.status(500).send('요청을 처리할 수 없습니다.');
+  }
+});
+
+app.get('/post/:id', (req, res) => {
+  try {
+    fs.stat(`article/${req.params.id}.json`, async (err, stats) => {
+      const article = JSON.parse(fs.readFileSync(`article/${req.params.id}.json`, { encoding: 'utf8', flag: 'r' }));
+      res.json({ ok: true, article });
+    });
+  } catch (err){
+    res.status(500).send('요청을 처리할 수 없습니다. ');
+  }
 });
 
 app.post('/post', (req, res) => {
