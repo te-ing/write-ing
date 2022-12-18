@@ -3,6 +3,7 @@ import cors from 'cors';
 import fs, { readFileSync } from "fs"
 import dayjs from 'dayjs';
 import mysql from 'mysql2/promise';
+import { AppDataSource } from './data-source';
 
 const app: Express = express();
 const port = 8080;
@@ -14,21 +15,9 @@ app.get('/', (req, res) => {
   res.send(dayjs().format('YYYY.MM.DD HH:mm:ss'));
 });
 
-const pool = mysql.createPool({
-  host: '127.0.0.1',
-  port: 3306,
-  user: 'dev01',
-  password: '1234',
-  database: 'dev',
-  connectionLimit: 10,
-  queueLimit: 0
-});
-
-// app.get('/api/post', async (req: Request, res: Response) => {
-//   const connection = pool.getConnection( async (conn: Promise<any>): Promise<any> => conn);
-//   const result = await (await connection).query('select * from post')
-//   res.send(result);
-// })
+AppDataSource.initialize()
+.then(() => {
+}).catch((error) => console.log(error))
 
 app.get('/posts', (req, res) => {
   try {
@@ -51,6 +40,13 @@ app.get('/post/:id', (req, res) => {
   }
 });
 
+
+app.listen(port, () => {
+  console.log(`[server]: Server is running at <https://localhost>:${port}`);
+});
+
+/**
+
 app.post('/post', (req, res) => {
   // const { writeTime, title, content } = req.body.data.content;
   const reqData = req.body.data.content;
@@ -63,13 +59,7 @@ app.post('/post', (req, res) => {
     comment: [],
     ...reqData
   }   
-
-
   res.send('Got a POST request')
   fs.writeFile(`../client/article/${reqData.title}.JSON`, JSON.stringify(Post), (err) => console.log(err));
 })
-
-app.listen(port, () => {
-  console.log(`[server]: Server is running at <https://localhost>:${port}`);
-});
-
+ */
