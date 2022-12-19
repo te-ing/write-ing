@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express } from 'express';
 import cors from 'cors';
 import fs, { readFileSync } from "fs"
 import dayjs from 'dayjs';
@@ -11,35 +11,34 @@ const port = 8080;
 app.use(cors())
 app.use(express.json())
 
-app.get('/', (req, res) => {
-  res.send(dayjs().format('YYYY.MM.DD HH:mm:ss'));
-});
-
 AppDataSource.initialize()
 .then(() => {
 }).catch((error) => console.log(error))
 
-app.get('/posts', (req, res) => {
-  try {
-    const articleDir = fs.readdirSync('article'); // 디렉토리를 읽어온다
-    const article = articleDir.map((file) => JSON.parse((readFileSync(`article/${file}`, { encoding: 'utf8'})).toString()));
-    res.json({ ok: true, article });
-  } catch (err) {
-    res.status(500).send('요청을 처리할 수 없습니다.');
-  }
+
+const pool = mysql.createPool({
+  host: '127.0.0.1',
+  port: 3306,
+  user: process.env.DB_USER_ID,
+  password: process.env.DB_USER_PASSWORD,
+  database: 'mariadb',
+  connectionLimit: 10,
+  queueLimit: 0,
 });
 
-app.get('/post/:id', (req, res) => {
+
+app.get('/', async (req, res) => {
+  // res.send(dayjs().format('YYYY.MM.DD HH:mm:ss'));
   try {
-    fs.stat(`article/${req.params.id}.json`, async (err, stats) => {
-      const article = JSON.parse(fs.readFileSync(`article/${req.params.id}.json`, { encoding: 'utf8', flag: 'r' }));
-      res.json({ ok: true, article });
-    });
-  } catch (err){
-    res.status(500).send('요청을 처리할 수 없습니다. ');
+    const postSql = "SELECT * from post";
+    const connection = await pool.getConnection();
+    const result = await connection.query(postSql);
+    res.status(200).send(result)
+  } catch {
+    res.status(500).send("message : Internal Server")
   }
 });
-
+;
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at <https://localhost>:${port}`);
