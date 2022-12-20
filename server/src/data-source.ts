@@ -10,7 +10,7 @@ export const AppDataSource = new DataSource({
     database: "mariadb",
     synchronize: true, // 싱크를 맞추는 과정에서 데이터 유실 가능성이 있기 때문에 운영환경에서는 false
     logging: false,
-    entities: ["src/entity/**/*.ts"],
+    entities: ["src/entities/**/*.ts"],
     migrations: [],
     subscribers: [],
 })
