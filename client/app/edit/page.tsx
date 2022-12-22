@@ -10,7 +10,7 @@ import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/d
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.js';
 import dayjs from 'dayjs';
 import styles from './edit.module.scss';
-import { writePost } from 'api/posts.api';
+import { getPost, writePost } from 'api/posts.api';
 import { PostEditType } from 'types/post';
 
 export default function Page() {
@@ -47,6 +47,11 @@ export default function Page() {
     console.log(contentHtml);
   };
 
+  const getPostTest = async () => {
+    console.log('click!');
+    const post = await getPost();
+    console.log(post);
+  };
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>
@@ -65,6 +70,7 @@ export default function Page() {
         />
       </div>
       <button onClick={showContent}>Write</button>
+      <button onClick={() => getPostTest()}>click</button>
     </div>
   );
 }

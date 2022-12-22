@@ -1,14 +1,11 @@
-import { IsEmail, Length } from 'class-validator';
-import { BeforeInsert, Column, Entity, Index, ManyToOne, OneToMany } from 'typeorm';
+import { Length } from 'class-validator';
+import { BeforeInsert, Column, Entity, Index, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import bcrypt from 'bcryptjs';
-import { Post } from './Post.entity';
+import BaseEntity from './Base.entity';
+import Post from './Post.entity';
 
 @Entity('comments')
-export class Comment {
-  @Index()
-  @Column()
-  post_id: string;
-
+export default class Comment extends BaseEntity {
   @Column()
   ip: string;
 
@@ -20,8 +17,11 @@ export class Comment {
   @Length(4, 32, { message: '비밀번호는 4자리 이상이어야 합니다.' })
   password: string;
 
-  @ManyToOne(() => Post, (post) => post.comment)
-  posts: Post[];
+  @Column({ type: 'text' })
+  content: string;
+
+  @ManyToOne(() => Post, (post) => post.comments)
+  post: Post;
 
   @BeforeInsert()
   async hashPassword() {

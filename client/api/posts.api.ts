@@ -6,11 +6,9 @@ export const getPost = async () => {
   return data;
 };
 
-export const writePost = async (body) => {
+export const writePost = async (payload) => {
   const { data } = await instance.post(`post`, {
-    data: {
-      content: body,
-    },
+    payload,
   });
 
   return data;

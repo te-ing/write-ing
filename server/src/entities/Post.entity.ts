@@ -1,8 +1,9 @@
-import { Entity, Column, Index, OneToMany } from 'typeorm';
-import { Comment } from './Comment.entitiy';
+import { Entity, Column, Index, OneToMany, BeforeInsert } from 'typeorm';
+import BaseEntity from './Base.entity';
+import Comment from './Comment.entitiy';
 
 @Entity()
-export class Post {
+export default class Post extends BaseEntity {
   @Index()
   @Column({ length: 100 })
   title: string;
@@ -25,6 +26,6 @@ export class Post {
   @Column({ type: 'json' })
   comment: string;
 
-  @OneToMany(() => Comment, (comment) => comment.posts)
-  posts: Post[];
+  @OneToMany(() => Comment, (comment) => comment.post)
+  comments: Comment[];
 }
