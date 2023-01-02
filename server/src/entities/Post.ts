@@ -52,15 +52,14 @@ export default class Post extends BaseEntity {
   view: number;
 
   @ManyToOne(() => User, (user) => user.posts)
-  @JoinColumn({ name: 'author', referencedColumnName: 'author' })
+  @JoinColumn({ name: 'identifier', referencedColumnName: 'identifier' })
   author: User;
 
   @ManyToOne(() => Category, (category) => category.posts)
-  @JoinColumn({ name: 'category', referencedColumnName: 'category' })
+  @JoinColumn({ name: 'name', referencedColumnName: 'name' })
   category: Category[];
 
-  @ManyToMany(() => Tag)
-  @JoinTable()
+  @OneToMany(() => Tag, (tag) => Tag.name)
   tags: Tag[];
 
   @Exclude()

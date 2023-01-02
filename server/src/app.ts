@@ -1,10 +1,6 @@
 import express, { Express } from 'express';
 import cors from 'cors';
-import fs, { readFileSync } from 'fs';
-import dayjs from 'dayjs';
-import mysql from 'mysql2/promise';
 import { AppDataSource } from './data-source';
-import Post from './entities/Post.entity';
 import router from './routes/index';
 import dotenv from 'dotenv';
 

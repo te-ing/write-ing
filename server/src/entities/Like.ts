@@ -9,7 +9,7 @@ export default class Like extends BaseEntity {
   value: number;
 
   @ManyToOne(() => User)
-  @JoinColumn({ name: 'username', referencedColumnName: 'username' })
+  @JoinColumn({ name: 'nickname', referencedColumnName: 'nickname' })
   user: User;
 
   @Column()
