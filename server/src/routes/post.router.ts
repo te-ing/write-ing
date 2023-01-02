@@ -1,4 +1,4 @@
-import Post from '@/entities/Post.entity';
+import Post from '@/entities/Post';
 import { validate } from 'class-validator';
 import { Request, Response, Router } from 'express';
 
@@ -30,9 +30,6 @@ const createPost = async (req: Request, res: Response) => {
     post.subtitle = subtitle;
     post.content = content;
     post.status = status;
-    post.tag = tag;
-    post.like = '[]';
-    post.comment = '[]';
 
     // 엔티티에 정해 놓은 조건으로 user 데이터 유효성 검사
     errors = await validate(post);
