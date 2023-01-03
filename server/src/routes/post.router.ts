@@ -5,6 +5,18 @@ import { Request, Response, Router } from 'express';
 
 const router = Router();
 
+const getPostDetail = async (req: Request, res: Response) => {
+  const postId = Number(req.params.id);
+  try {
+    const target = await Post.findOneByOrFail({ id: postId });
+    console.log(target);
+    return res.status(200).send(target);
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({ error: '해당 게시글을 찾을 수 없습니다.' });
+  }
+};
+
 const getPostList = async (req: Request, res: Response) => {
   try {
     const posts = await AppDataSource.createQueryBuilder().from(Post, 'p').orderBy(`"createdAt"`, 'DESC').execute();
@@ -41,6 +53,7 @@ const createPost = async (req: Request, res: Response) => {
 };
 
 router.get('/list', getPostList);
+router.get('/:id', getPostDetail);
 router.post('/create', createPost);
 
 export default router;
