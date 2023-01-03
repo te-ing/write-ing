@@ -1,47 +1,46 @@
+import { AppDataSource } from '@/data-source';
 import Post from '@/entities/Post';
 import { validate } from 'class-validator';
 import { Request, Response, Router } from 'express';
 
 const router = Router();
 
-const getPost = async (req: Request, res: Response) => {
-  // try {
-  let errors: any = {};
-  const posts = await Post.find();
-  // if (!posts.length) errors.error = '포스트가 존재하지 않습니다.';
-  // if (Object.keys(errors).length > 0) return res.status(400).json(errors);
-  return res.json(posts);
-  // } catch {
-  //   res.status(500).send('message : Internal Server');
-  // }
+const getPostList = async (req: Request, res: Response) => {
+  try {
+    const posts = await AppDataSource.createQueryBuilder().from(Post, 'p').orderBy(`"createdAt"`, 'DESC').execute();
+
+    return res.send(posts);
+  } catch (error) {
+    return res.status(404).json({ error: '게시글을 찾을 수 없습니다.' });
+  }
 };
 
 const createPost = async (req: Request, res: Response) => {
-  const { title, subtitle, content, status, tag } = req.body.payload;
-  try {
-    let errors: any = {};
-    const prevPost = await Post.findOneBy({ title });
-    if (!prevPost) errors.title = '동일한 제목의 글이 존재합니다.';
+  const { title, subtitle, nickname, status, content, category, tag } = req.body.payload;
+  if (title.trim() === '') {
+    return res.status(400).json({ title: '제목은 비워둘 수 없습니다.' });
+  }
 
+  try {
     const post = new Post();
-    post.createdAt = new Date();
-    post.updatedAt = new Date();
     post.title = title;
     post.subtitle = subtitle;
-    post.content = content;
+    post.nickname = nickname;
     post.status = status;
+    post.content = content;
+    post.category = category;
+    post.tag = tag;
 
-    // 엔티티에 정해 놓은 조건으로 user 데이터 유효성 검사
-    errors = await validate(post);
     await post.save();
 
     return res.json(post);
   } catch (error) {
-    return res.status(500).json({ error });
+    console.log(error);
+    return res.status(500).json({ error: '문제가 발생했습니다.' });
   }
 };
 
-router.get('/', getPost);
-router.post('/', createPost);
+router.get('/list', getPostList);
+router.post('/create', createPost);
 
 export default router;

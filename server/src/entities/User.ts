@@ -39,7 +39,7 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   imageUrn: string;
 
-  @OneToMany(() => Post, (post) => post.author)
+  @OneToMany(() => Post, (post) => post.user)
   posts: Post[];
 
   @OneToMany(() => Like, (like) => like.user)

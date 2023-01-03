@@ -10,11 +10,12 @@ import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/d
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.js';
 import dayjs from 'dayjs';
 import styles from './edit.module.scss';
-import { getPost, writePost } from 'api/posts.api';
+import { createPost, getPost } from 'api/posts.api';
 import { PostEditType } from 'types/post';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
 export default function Page() {
-  const titleRef = useRef(null);
   const editorRef = useRef(null);
   const toolbarItems = [
     ['heading', 'bold', 'italic', 'strike'],
@@ -26,36 +27,39 @@ export default function Page() {
     ['scrollSync'],
   ];
 
-  const showContent = async () => {
+  interface FormValues {
+    title: string;
+    subtitle?: string;
+    nickname: string;
+    status: string;
+    content: string;
+    category?: string;
+    tag?: string;
+  }
+
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, isDirty, errors },
+    setError,
+  } = useForm<FormValues>();
+
+  const onSubmit = async ({ title }: FormValues) => {
     const editorIns = editorRef.current.getInstance();
     const contentHtml = editorIns.getHTML();
-    const contentMark = editorIns.getMarkdown();
-    // console.log(contentMark);
-    // console.log(contentHtml);
-
-    const payload: PostEditType = {
-      title: titleRef.current.value,
-      subtitle: contentMark.slice(0, 30),
+    const payload = {
+      title,
+      nickname: '테스트유저',
       content: contentHtml,
-      status: 'public',
-      tag: '회고' || '스터디' || '기록',
+      status: 'active',
     };
-    const response = await writePost(payload);
-
-    console.log(response);
-    console.log(payload);
-    console.log(contentHtml);
-  };
-
-  const getPostTest = async () => {
-    console.log('click!');
-    const post = await getPost();
-    console.log(post);
+    const res = await createPost(payload);
+    console.log(res);
   };
   return (
-    <div className={styles.wrapper}>
+    <form className={styles.wrapper} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.title}>
-        <input ref={titleRef} type="text" className={styles.title_input} placeholder="제목을 입력하세요" />
+        <input {...register('title')} type="text" className={styles.title_input} placeholder="제목을 입력하세요" />
       </div>
       <div className={styles.editor}>
         <Editor
@@ -69,8 +73,7 @@ export default function Page() {
           plugins={[colorSyntax, codeSyntaxHighlight]}
         />
       </div>
-      <button onClick={showContent}>Write</button>
-      <button onClick={() => getPostTest()}>click</button>
-    </div>
+      <button>click</button>
+    </form>
   );
 }

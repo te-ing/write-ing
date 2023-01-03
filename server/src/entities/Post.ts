@@ -1,29 +1,12 @@
 import { Exclude, Expose } from 'class-transformer';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne, OneToMany, UpdateDateColumn } from 'typeorm';
 import Comment from './Comment';
 import BaseEntity from './Entity';
-import Category from './Category';
 import { User } from './User';
-import Tag from './Tag';
 import Like from './Like';
 
 @Entity('posts')
 export default class Post extends BaseEntity {
-  @Index()
-  @Column()
-  identifier: string;
-
   @CreateDateColumn()
   createdAt: Date;
 
@@ -33,34 +16,29 @@ export default class Post extends BaseEntity {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ nullable: true, type: 'text' })
   subtitle: string;
 
   @Column()
-  tagName: string;
+  nickname: string;
 
   @Column()
-  username: string;
-
-  @Column({ nullable: true, type: 'text' })
   content: string;
 
   @Column()
-  status: number;
+  status: string;
 
-  @Column()
+  @Column({ default: 0 })
   view: number;
 
+  @Column({ nullable: true })
+  category: string;
+
+  @Column({ nullable: true })
+  tag: string;
+
   @ManyToOne(() => User, (user) => user.posts)
-  @JoinColumn({ name: 'identifier', referencedColumnName: 'identifier' })
-  author: User;
-
-  @ManyToOne(() => Category, (category) => category.posts)
-  @JoinColumn({ name: 'name', referencedColumnName: 'name' })
-  category: Category[];
-
-  @OneToMany(() => Tag, (tag) => Tag.name)
-  tags: Tag[];
+  user: User;
 
   @Exclude()
   @OneToMany(() => Comment, (comment) => comment.post)
@@ -71,7 +49,7 @@ export default class Post extends BaseEntity {
   likes: Like[];
 
   @Expose() get url(): string {
-    return `/r/${this.category}/${this.identifier}/${this.title}`;
+    return `/post/${this.id}`;
   }
 
   @Expose() get commentCount(): number {
