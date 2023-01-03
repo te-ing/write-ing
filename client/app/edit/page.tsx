@@ -8,12 +8,9 @@ import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all.js';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.js';
-import dayjs from 'dayjs';
 import styles from './edit.module.scss';
-import { createPost, getPost } from 'api/posts.api';
-import { PostEditType } from 'types/post';
+import { createPost } from 'api/posts.api';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 
 export default function Page() {
   const editorRef = useRef(null);
@@ -56,24 +53,34 @@ export default function Page() {
     const res = await createPost(payload);
     console.log(res);
   };
+
+  const getPostList = async () => {
+    const response = await fetch('http://localhost:8080/api/post/list');
+    const data = await response.json();
+    console.log(data);
+    return data;
+  };
   return (
-    <form className={styles.wrapper} onSubmit={handleSubmit(onSubmit)}>
-      <div className={styles.title}>
-        <input {...register('title')} type="text" className={styles.title_input} placeholder="제목을 입력하세요" />
-      </div>
-      <div className={styles.editor}>
-        <Editor
-          ref={editorRef}
-          initialValue="" // 글 수정 시 사용
-          initialEditType="markdown" // wysiwyg & markdown
-          hideModeSwitch={true}
-          height="500px"
-          usageStatistics={false}
-          toolbarItems={toolbarItems}
-          plugins={[colorSyntax, codeSyntaxHighlight]}
-        />
-      </div>
-      <button>click</button>
-    </form>
+    <>
+      <form className={styles.wrapper} onSubmit={handleSubmit(onSubmit)}>
+        <div className={styles.title}>
+          <input {...register('title')} type="text" className={styles.title_input} placeholder="제목을 입력하세요" />
+        </div>
+        <div className={styles.editor}>
+          <Editor
+            ref={editorRef}
+            initialValue="" // 글 수정 시 사용
+            initialEditType="markdown" // wysiwyg & markdown
+            hideModeSwitch={true}
+            height="500px"
+            usageStatistics={false}
+            toolbarItems={toolbarItems}
+            plugins={[colorSyntax, codeSyntaxHighlight]}
+          />
+        </div>
+        <button>click</button>
+      </form>
+      <button onClick={getPostList}>get post click</button>
+    </>
   );
 }

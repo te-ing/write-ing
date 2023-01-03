@@ -2,19 +2,21 @@ export interface PostType {
   id: number;
   createdAt: string;
   updatedAt: string;
+  nickname: string;
   title: string;
-  subtitle: string;
+  subtitle?: string;
   content: string;
-  status: 'public' | 'private' | 'temp';
-  tag: '회고' | '스터디' | '기록';
-  like: [];
-  comment: [];
+  status: string;
+  tag?: string;
+  like?: [];
+  comment?: [];
+  view: number;
 }
 
 export interface PostEditType {
   title: string;
   subtitle: string;
   content: string;
-  status: 'public' | 'private' | 'temp';
-  tag: '회고' | '스터디' | '기록';
+  status: string;
+  tag?: string;
 }
