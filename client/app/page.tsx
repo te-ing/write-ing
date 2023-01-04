@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import styles from '@app/page.scss';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -11,7 +12,7 @@ export default function Home() {
       </Head>
 
       <h1 className={styles.title}>
-        Welcome to <a href="/edit">글쓰기</a>
+        Welcome to <Link href="/edit">글쓰기</Link>
       </h1>
       <div>
         <h2>홈페이지</h2>

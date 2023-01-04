@@ -4,7 +4,7 @@ import PostContent from 'components/Post/PostDetail/PostContent';
 import PostDetail from 'components/Post/PostDetail';
 
 const getPostDetail = async (id: string): Promise<PostType> => {
-  const response = await fetch(`http://localhost:8080/api/post/${id}`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/post/${id}`);
   const data = await response.json();
   return data;
 };

@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import 'tui-color-picker/dist/tui-color-picker.css';
@@ -12,7 +12,7 @@ import styles from './edit.module.scss';
 import { createPost } from 'api/posts.api';
 import { useForm } from 'react-hook-form';
 
-export default function Page() {
+export default function EditPage() {
   const editorRef = useRef(null);
   const toolbarItems = [
     ['heading', 'bold', 'italic', 'strike'],
@@ -41,6 +41,15 @@ export default function Page() {
     setError,
   } = useForm<FormValues>();
 
+  useEffect(() => {
+    const initTerminal = async () => {
+      const { Terminal } = await import('xterm');
+      const term = new Terminal();
+      // Add logic with `term`
+    };
+    initTerminal();
+  }, []);
+
   const onSubmit = async ({ title }: FormValues) => {
     const editorIns = editorRef.current.getInstance();
     const contentHtml = editorIns.getHTML();
@@ -53,11 +62,6 @@ export default function Page() {
     const res = await createPost(payload);
   };
 
-  const getPost = async () => {
-    const response = await fetch('http://localhost:8080/api/post/1');
-    const data = await response.json();
-    return data;
-  };
   return (
     <>
       <form className={styles.wrapper} onSubmit={handleSubmit(onSubmit)}>
@@ -78,7 +82,6 @@ export default function Page() {
         </div>
         <button>click</button>
       </form>
-      <button onClick={getPost}>get post click</button>
     </>
   );
 }
