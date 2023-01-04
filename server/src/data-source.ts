@@ -15,4 +15,5 @@ export const AppDataSource = new DataSource({
   entities: ['src/entities/**/*.ts'],
   migrations: [],
   subscribers: [],
+  charset: 'utf8mb4',
 });
