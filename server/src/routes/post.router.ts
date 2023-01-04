@@ -8,9 +8,8 @@ const router = Router();
 const getPostDetail = async (req: Request, res: Response) => {
   const postId = Number(req.params.id);
   try {
-    const target = await Post.findOneByOrFail({ id: postId });
-    console.log(target);
-    return res.status(200).send(target);
+    const post = await Post.findOneByOrFail({ id: postId });
+    return res.status(200).send(post);
   } catch (error) {
     console.log(error);
     return res.status(404).json({ error: '해당 게시글을 찾을 수 없습니다.' });
@@ -52,8 +51,19 @@ const createPost = async (req: Request, res: Response) => {
   }
 };
 
+const deletePost = async (req: Request, res: Response) => {
+  try {
+    const results = await AppDataSource.getRepository(Post).delete(req.params.id);
+    return res.status(200).send(results);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: '해당 게시글을 삭제할 수 없습니다.' });
+  }
+};
+
 router.get('/list', getPostList);
 router.get('/:id', getPostDetail);
 router.post('/create', createPost);
+router.delete('/:id', deletePost);
 
 export default router;

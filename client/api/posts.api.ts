@@ -19,6 +19,10 @@ export const createPost = async (payload: PostCreate) => {
   const { data } = await instance.post(`post/create`, {
     payload,
   });
+  return data;
+};
 
+export const deletePost = async (id: number) => {
+  const { data } = await instance.delete(`post/${id}`);
   return data;
 };
