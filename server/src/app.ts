@@ -24,7 +24,7 @@ app.use('/api', apiRouter);
 let port = process.env.PORT;
 
 app.listen(port, async () => {
-  console.log(`server running at http//localhost:${port} port`);
+  console.log(`server running at ${process.env.APP_URL} port`);
   AppDataSource.initialize()
     .then(async () => {
       console.log('database initialized...');

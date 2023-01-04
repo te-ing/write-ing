@@ -3,7 +3,7 @@ import { PostType } from 'types/post';
 import styles from './page.module.scss';
 
 const getPostList = async (): Promise<PostType[]> => {
-  const response = await fetch('http://localhost:8080/api/post/list');
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/post/list`);
   const data = await response.json();
   return data;
 };
