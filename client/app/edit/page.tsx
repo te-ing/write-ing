@@ -51,13 +51,11 @@ export default function Page() {
       status: 'active',
     };
     const res = await createPost(payload);
-    console.log(res);
   };
 
-  const getPostList = async () => {
-    const response = await fetch('http://localhost:8080/api/post/list');
+  const getPost = async () => {
+    const response = await fetch('http://localhost:8080/api/post/1');
     const data = await response.json();
-    console.log(data);
     return data;
   };
   return (
@@ -80,7 +78,7 @@ export default function Page() {
         </div>
         <button>click</button>
       </form>
-      <button onClick={getPostList}>get post click</button>
+      <button onClick={getPost}>get post click</button>
     </>
   );
 }

@@ -22,7 +22,7 @@ export default class Post extends BaseEntity {
   @Column()
   nickname: string;
 
-  @Column()
+  @Column({ type: 'text' })
   content: string;
 
   @Column()
