@@ -8,7 +8,7 @@ const getPostList = async (): Promise<PostType[]> => {
   return data;
 };
 
-export default async function Home() {
+export default async function HomePage() {
   const posts = await getPostList();
   return (
     <div className={styles.postCard_wrapper}>

@@ -1,38 +1,28 @@
 'use client';
-import React, { Suspense, useEffect, useRef, useState } from 'react';
 import styles from './edit.module.scss';
 import { createPost } from 'api/posts.api';
-import { useForm } from 'react-hook-form';
 import dynamic from 'next/dynamic';
-
-interface FormValues {
-  title: string;
-  subtitle?: string;
-  nickname: string;
-  status: string;
-  content: string;
-  category?: string;
-  tag?: string;
-}
+import { useForm } from 'react-hook-form';
+import { useEffect, useRef, useState } from 'react';
+import { EditFormValues } from 'types/formValues';
 
 const ToastEditor = dynamic(() => import('components/ToastEditor'), {
   ssr: false,
 });
-
 export default function EditPage() {
-  const editorRef = useRef(null);
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, isDirty, errors },
     setError,
-  } = useForm<FormValues>();
-  const [loading, setLoading] = useState(true);
+  } = useForm<EditFormValues>();
+  const editorRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    setLoading(false);
+    setIsLoading(false);
   }, []);
 
-  const onSubmit = async ({ title }: FormValues) => {
+  const onSubmit = async ({ title }: EditFormValues) => {
     const editorIns = editorRef.current.getInstance();
     const contentHtml = editorIns.getHTML();
     const payload = {
@@ -45,18 +35,24 @@ export default function EditPage() {
   };
 
   return (
-    <>
-      <form className={styles.wrapper} onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.title}>
-          <input {...register('title')} type="text" className={styles.title_input} placeholder="제목을 입력하세요" />
+    <form className={styles.wrapper} onSubmit={handleSubmit(onSubmit)}>
+      <div className={styles.title}>
+        <input
+          id="title"
+          {...register('title')}
+          type="text"
+          className={styles.title_input}
+          placeholder="제목을 입력하세요"
+        />
+      </div>
+      {isLoading ? (
+        ''
+      ) : (
+        <div className={styles.editor}>
+          <ToastEditor editorRef={editorRef} />
         </div>
-        <Suspense fallback={<p>로딩..</p>}>
-          <div className={styles.editor} resource={''}>
-            <ToastEditor editorRef={editorRef} />
-          </div>
-        </Suspense>
-        <button>click</button>
-      </form>
-    </>
+      )}
+      <button>click</button>
+    </form>
   );
 }
