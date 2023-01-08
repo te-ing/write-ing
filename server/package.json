@@ -5,7 +5,8 @@
   "main": "app.ts",
   "scripts": {
     "start": "ts-node src/app.ts",
-    "start:prod": "env-cmd -f .env.production ts-node src/app.ts",
+    "start:dev": "env-cmd -f .env.development ts-node -r tsconfig-paths/register --files ./src/app.ts",
+    "start:prod": "env-cmd -f .env.production ts-node -r tsconfig-paths/register --files ./src/app.ts",
     "dev": "env-cmd -f .env.development nodemon",
     "build": "npx tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
