@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { useForm } from 'react-hook-form';
 import { useEffect, useRef, useState } from 'react';
 import { EditFormValues } from 'types/formValues';
+import { useRouter } from 'next/navigation';
 
 const ToastEditor = dynamic(() => import('components/ToastEditor'), {
   ssr: false,
@@ -18,6 +19,7 @@ export default function EditPage() {
   } = useForm<EditFormValues>();
   const editorRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
   useEffect(() => {
     setIsLoading(false);
   }, []);
@@ -31,7 +33,8 @@ export default function EditPage() {
       content: contentHtml,
       status: 'active',
     };
-    const res = await createPost(payload);
+    const response = await createPost(payload);
+    router.push(`${process.env.NEXT_PUBLIC_CLIENT_BASE_URL}/post/${response.id}`);
   };
 
   return (

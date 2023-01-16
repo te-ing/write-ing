@@ -6,13 +6,15 @@ import PostDetailHeader from './PostDetailHeader';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from '@toast-ui/react-editor';
 import { deletePost } from 'api/posts.api';
+import { useRouter } from 'next/navigation';
 
 const PostDetail = ({ post }: { post: PostType }) => {
   const viewerRef = useRef(null);
+  const router = useRouter();
 
   const postDelete = async () => {
     const result = await deletePost(post.id);
-    console.log(result);
+    router.push('/home');
   };
 
   return (
