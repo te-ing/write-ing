@@ -3,7 +3,6 @@ import { PostType } from 'types/post';
 import Link from 'next/link';
 
 const PostCard = ({ post }: { post: PostType }) => {
-  console.log(post);
   return (
     <Link href={`/post/${post.id}`}>
       <div className={styles.post_card}>

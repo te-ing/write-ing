@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form';
 import { useEffect, useRef, useState } from 'react';
 import { EditFormValues } from 'types/formValues';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import { createImageFile } from 'api/files.api';
 
 const ToastEditor = dynamic(() => import('components/ToastEditor'), {
   ssr: false,
@@ -37,6 +39,24 @@ export default function EditPage() {
     router.push(`${process.env.NEXT_PUBLIC_CLIENT_BASE_URL}/post/${response.id}`);
   };
 
+  const uploadImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files === null) return;
+    const baseUrl = process.env.NEXT_PUBLIC_SERVER_BASE_URL;
+    const file = event.target.files[0];
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('type', 'image');
+
+    try {
+      const response = await createImageFile(formData, 'post');
+      const imageTag = `\n<img src="${baseUrl}/images/post/${response.filename}" width="" height="" />`;
+      editorRef.current.getInstance().insertText(imageTag);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <form className={styles.wrapper} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.title}>
@@ -48,6 +68,7 @@ export default function EditPage() {
           placeholder="제목을 입력하세요"
         />
       </div>
+      <input id="image" type="file" onChange={uploadImage} />
       {isLoading ? (
         ''
       ) : (
