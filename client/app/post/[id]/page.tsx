@@ -1,7 +1,7 @@
 import { PostType } from 'types/post';
 import { GetStaticPropsContext } from 'next';
 import PostContent from 'components/Post/PostDetail/PostContent';
-import PostDetail from 'components/Post/PostDetail';
+import PostDetail from 'components/Post/PostDetail/PostDetail';
 
 const getPostDetail = async (id: string): Promise<PostType> => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/post/${id}`);
