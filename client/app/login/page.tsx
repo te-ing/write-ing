@@ -1,8 +1,11 @@
 'use client';
 import styles from './login.module.scss';
 import { useForm } from 'react-hook-form';
-import { LoginFormValues } from 'types/formValues';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import { getPublicKey, userLogin } from 'api/auth.api';
+import { rsaEncode } from 'utiles/encode';
+import { LoginForm } from 'types/user';
 
 export default function LoginPage() {
   const {
@@ -10,18 +13,24 @@ export default function LoginPage() {
     handleSubmit,
     formState: { isSubmitting, isDirty, errors },
     setError,
-  } = useForm<LoginFormValues>();
+  } = useForm<LoginForm>();
   const router = useRouter();
 
-  const onSubmit = async () => {
-    router.push(`/home`);
+  const onSubmit = async ({ email, password }: LoginForm) => {
+    const encodedPassword = await rsaEncode(password);
+    const { data } = await userLogin({ email, password: encodedPassword });
+    console.log(data);
+    // router.push(`/home`);
   };
   return (
     <>
       <form className={styles.form_wrapper} onSubmit={handleSubmit(onSubmit)}>
-        <input id="id" {...register('id')} type="text" placeholder="ID" />
-        <input id="password" {...register('password')} type="text" placeholder="PW" />
-        <button>login</button>
+        <input id="id" {...register('email')} type="text" placeholder="email" />
+        <input id="password" {...register('password')} type="password" placeholder="password" />
+        <button type="submit">로그인</button>
+        <button type="button" onClick={() => router.push('/register')}>
+          회원가입
+        </button>
       </form>
     </>
   );

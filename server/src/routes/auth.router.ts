@@ -71,10 +71,10 @@ const login = async (req: Request, res: Response) => {
     // 디비에서 유저 찾기
     const user = await User.findOneBy({ email });
 
-    if (!user) return res.status(404).json({ username: '사용자 이름이 등록되지 않았습니다.' });
+    if (!user) return res.status(404).json({ email: '사용자가 등록되지 않았습니다.' });
 
     // 유저가 있다면 비밀번호 비교하기
-    const passwordMatches = await bcrypt.compare(encodeHash(decodeRSA(password)), user.password);
+    const passwordMatches = await bcrypt.compare(decodeRSA(password), user.password);
 
     // 비밀번호가 다르다면 에러 보내기
     if (!passwordMatches) {

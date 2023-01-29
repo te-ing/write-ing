@@ -1,11 +1,11 @@
 'use client';
 import styles from './register.module.scss';
 import { useForm } from 'react-hook-form';
-import { RegisterFormValues } from 'types/formValues';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import { getPublicKey } from 'api/auth.api';
+import { getPublicKey, userRegister } from 'api/auth.api';
 import { rsaEncode } from 'utiles/encode';
+import { RegisterForm } from 'types/user';
 
 export default function RegisterPage() {
   const {
@@ -13,18 +13,14 @@ export default function RegisterPage() {
     handleSubmit,
     formState: { isSubmitting, isDirty, errors },
     setError,
-  } = useForm<RegisterFormValues>();
+  } = useForm<RegisterForm>();
   const router = useRouter();
 
-  const onSubmit = async ({ email, password, checkPassword, nickname }: RegisterFormValues) => {
+  const onSubmit = async ({ email, password, checkPassword, nickname }: RegisterForm) => {
     if (password !== checkPassword) return;
     const encodedPassword = await rsaEncode(password);
-    const res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/auth/register`, {
-      email,
-      nickname,
-      password: encodedPassword,
-    });
-    console.log(res.data);
+    const { data } = await userRegister({ email, nickname, password: encodedPassword });
+    console.log(data);
     // router.push(`/home`);
   };
   return (

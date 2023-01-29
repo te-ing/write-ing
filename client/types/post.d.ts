@@ -20,3 +20,7 @@ export interface PostEditType {
   status: string;
   tag?: string;
 }
+
+export interface PostEditForm extends PostEditType {
+  category?: string;
+}

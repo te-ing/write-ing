@@ -47,9 +47,4 @@ export class User extends BaseEntity {
   get imageUrl(): string {
     return this.imageUrn ? `/images/${this.imageUrn}` : 'https://www.gravatar.com/avatar?d=mp&f=y';
   }
-
-  @BeforeInsert()
-  async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 6);
-  }
 }
