@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cookie from 'cookie';
 import { User } from '@/entities/User';
-import { decodeRSA, encodeHash } from '@/utils/security';
+import { decodeRSA, encodeHash, encodeRSA } from '@/utils/security';
 
 const mapError = (errors: Object[]) => {
   return errors.reduce((prev: any, err: any) => {
@@ -25,8 +25,7 @@ const publicKey = async (_: Request, res: Response) => {
 };
 
 const register = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
-
+  const { email, password, nickname } = req.body;
   try {
     let errors: any = {};
 
@@ -40,9 +39,9 @@ const register = async (req: Request, res: Response) => {
     if (Object.keys(errors).length > 0) {
       return res.status(400).json(errors);
     }
-
     const user = new User();
     user.email = email;
+    user.nickname = nickname;
     user.password = encodeHash(decodeRSA(password));
 
     // 엔티티에 정해 놓은 조건으로 user 데이터의 유효성 검사를 해줌.

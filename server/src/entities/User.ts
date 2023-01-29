@@ -23,7 +23,7 @@ export class User extends BaseEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @Column()
+  @Column({ default: 'GUEST' })
   authority: UserAuthority;
 
   @Column({ type: 'text', nullable: true })

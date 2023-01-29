@@ -9,6 +9,10 @@ export interface EditFormValues {
 }
 
 export interface LoginFormValues {
-  id: string;
+  email: string;
   password: string;
+}
+export interface RegisterFormValues extends LoginFormValues {
+  nickname: string;
+  checkPassword: string;
 }

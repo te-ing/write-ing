@@ -6,12 +6,14 @@ specifiers:
   '@toast-ui/editor-plugin-code-syntax-highlight': ^3.1.0
   '@toast-ui/editor-plugin-color-syntax': ^3.1.0
   '@toast-ui/react-editor': ^3.2.2
+  '@types/crypto-js': ^4.1.1
   '@types/node': 18.11.9
   '@types/react': 18.0.25
   '@types/react-dom': 18.0.9
   '@typescript-eslint/eslint-plugin': ^5.44.0
   '@typescript-eslint/parser': ^5.44.0
   axios: ^1.2.0
+  crypto-js: ^4.1.1
   dayjs: ^1.11.6
   env-cmd: ^10.1.0
   eslint: 8.28.0
@@ -40,6 +42,7 @@ dependencies:
   '@types/react': 18.0.25
   '@types/react-dom': 18.0.9
   axios: 1.2.2
+  crypto-js: 4.1.1
   dayjs: 1.11.7
   env-cmd: 10.1.0
   eslint: 8.28.0
@@ -54,6 +57,7 @@ dependencies:
 
 devDependencies:
   '@styled-jsx/plugin-sass': 4.0.2_sass@1.57.1
+  '@types/crypto-js': 4.1.1
   '@typescript-eslint/eslint-plugin': 5.48.0_5ovng4ricl6ggzt6l5n5ms7ofm
   '@typescript-eslint/parser': 5.48.0_hsf322ms6xhhd4b5ne6lb74y4a
   eslint-config-prettier: 8.6.0_eslint@8.28.0
@@ -322,6 +326,10 @@ packages:
       '@toast-ui/editor': 3.2.1
       react: 18.2.0
     dev: false
+
+  /@types/crypto-js/4.1.1:
+    resolution: {integrity: sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==}
+    dev: true
 
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
@@ -745,6 +753,10 @@ packages:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+
+  /crypto-js/4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+    dev: false
 
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
