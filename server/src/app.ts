@@ -4,9 +4,9 @@ import { AppDataSource } from './data-source';
 import apiRouter from './routes';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 
 const origin = process.env.ORIGIN;
-
 const app = express();
 app.use(
   cors({
@@ -16,6 +16,7 @@ app.use(
 app.use(express.json());
 app.use(express.static('public'));
 app.use(morgan('dev'));
+app.use(cookieParser());
 dotenv.config();
 
 app.get('/', (_, res) => res.send('running'));

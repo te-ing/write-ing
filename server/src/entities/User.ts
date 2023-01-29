@@ -4,14 +4,11 @@ import bcrypt from 'bcryptjs';
 import Post from './Post';
 import BaseEntity from './Entity';
 import Like from './Like';
-import { Expose } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
+import { UserAuthority } from '@/types/user';
 
 @Entity('users')
 export class User extends BaseEntity {
-  @Index()
-  @Column()
-  identifier: string;
-
   @Index()
   @IsEmail(undefined, { message: '이메일 주소가 잘못되었습니다.' })
   @Length(1, 255, { message: '이메일 주소는 비워둘 수 없습니다.' })
@@ -27,7 +24,7 @@ export class User extends BaseEntity {
   createdAt: Date;
 
   @Column()
-  authority: string;
+  authority: UserAuthority;
 
   @Column({ type: 'text', nullable: true })
   description: string;
@@ -39,6 +36,7 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   imageUrn: string;
 
+  @Exclude()
   @OneToMany(() => Post, (post) => post.user)
   posts: Post[];
 

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import postRoutes from './post.router';
 import filesRoutes from './files.router';
+import authRoutes from './auth.router';
 
 const router = Router();
 
@@ -10,5 +11,6 @@ router.get('/', (req, res) => {
 
 router.use('/post', postRoutes);
 router.use('/files', filesRoutes);
+router.use('/auth', authRoutes);
 
 export default router;

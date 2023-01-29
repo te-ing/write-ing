@@ -26,5 +26,3 @@ export const makeId = (length: number) => {
   }
   return result;
 };
-
-console.log(makeId(5));
