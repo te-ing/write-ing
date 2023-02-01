@@ -5,22 +5,21 @@ import { User } from './User';
 
 @Entity('comments')
 export default class Comment extends BaseEntity {
-  @Index()
-  @Column()
-  identifier: string;
-
   @Column()
   body: string;
 
   @Column()
   nickname: string;
 
-  @Column()
+  @Column({ default: 'public' })
   status: string;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'nickname', referencedColumnName: 'nickname' })
   user: User;
+
+  @Column()
+  postId: number;
 
   @ManyToOne(() => Post, (post) => post.comments, { nullable: false })
   post: Post;

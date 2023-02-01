@@ -81,8 +81,7 @@ const login = async (req: Request, res: Response) => {
       return res.status(401).json({ password: '비밀번호가 잘못되었습니다.' });
     }
     // 비밀번호가 맞다면 토큰 생성
-    const token = jwt.sign({ email }, process.env.JWT_SECRET);
-
+    const token = jwt.sign({ email, nickname: user.nickname }, process.env.JWT_SECRET, { expiresIn: '6h' });
     // 쿠키저장
     res.set(
       'Set-Cookie',
