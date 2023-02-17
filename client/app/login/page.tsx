@@ -2,8 +2,7 @@
 import styles from './login.module.scss';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import { getPublicKey, userLogin } from 'api/auth.api';
+import { userLogin } from 'api/auth.api';
 import { rsaEncode } from 'utiles/encode';
 import { LoginForm } from 'types/user';
 
@@ -18,9 +17,11 @@ export default function LoginPage() {
 
   const onSubmit = async ({ email, password }: LoginForm) => {
     const encodedPassword = await rsaEncode(password);
-    const { data } = await userLogin({ email, password: encodedPassword });
-    console.log(data);
-    // router.push(`/home`);
+    const res = await userLogin({ email, password: encodedPassword });
+    if (res.status === 200) {
+      console.log(res.data);
+      // router.push(`/home`);
+    }
   };
   return (
     <>

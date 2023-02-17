@@ -6,6 +6,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cookie from 'cookie';
 import { User } from '@/entities/User';
+import userMiddleware from '@/middlewares/user';
+import authMiddleware from '@/middlewares/auth';
 import { decodeRSA, encodeHash, encodeRSA } from '@/utils/security';
 
 const mapError = (errors: Object[]) => {
@@ -116,7 +118,7 @@ const logout = async (_, res: Response) => {
 const router = Router();
 router.post('/register', register);
 router.post('/login', login);
-router.post('/logout', logout);
+router.post('/logout', userMiddleware, authMiddleware, logout);
 router.get('/key', publicKey);
 
 export default router;

@@ -2,6 +2,7 @@ import { PostType } from 'types/post';
 import { GetStaticPropsContext } from 'next';
 import PostContent from 'components/Post/PostDetail/PostContent';
 import PostDetail from 'components/Post/PostDetail/PostDetail';
+import { Comments } from 'components/Comments';
 
 const getPostDetail = async (id: string): Promise<PostType> => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/post/${id}`);
@@ -15,7 +16,7 @@ export default async function PostDetailPage(context: GetStaticPropsContext) {
   return (
     <div className={''}>
       <PostDetail post={post} />
-      {/* <Comments comments={test} /> */}
+      <Comments post={post} />
     </div>
   );
 }

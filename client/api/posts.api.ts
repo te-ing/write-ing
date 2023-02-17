@@ -1,4 +1,5 @@
-import { instance } from './base.api';
+import { CommentType } from 'types/comment';
+import { Axios } from './base.api';
 
 interface PostCreate {
   title: string;
@@ -11,18 +12,40 @@ interface PostCreate {
 }
 
 export const getPostList = async () => {
-  const { data } = await instance.get(`post/list`);
+  const { data } = await Axios.get(`post/list`);
   return data;
 };
 
 export const createPost = async (payload: PostCreate) => {
-  const { data } = await instance.post(`post/create`, {
+  const { data } = await Axios.post(`post/create`, {
     payload,
   });
   return data;
 };
 
 export const deletePost = async (id: number) => {
-  const { data } = await instance.delete(`post/${id}`);
+  const { data } = await Axios.delete(`post/${id}`);
+  return data;
+};
+
+export const getComment = async (postId: number): Promise<CommentType[]> => {
+  const { data } = await Axios(`post/${postId}/comment`, {
+    withCredentials: true,
+  });
+  return data;
+};
+
+interface createCommentPayload {
+  postId: number;
+  body: string;
+}
+export const createComment = async (payload: createCommentPayload) => {
+  const { data } = await Axios.post(
+    `post/${payload.postId}/comment`,
+    {
+      body: payload.body,
+    },
+    { withCredentials: true }
+  );
   return data;
 };

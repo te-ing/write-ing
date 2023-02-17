@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const baseURL = `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api`;
 
-export const instance = axios.create({
+export const Axios = axios.create({
   baseURL: `${baseURL}/`,
   validateStatus: (status) => status < 500,
   timeout: 10000,

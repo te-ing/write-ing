@@ -5,8 +5,8 @@ const Comment = ({ comment }: { comment: CommentType }) => {
   return (
     <div>
       댓글
-      <div>{comment.nickname}</div>
-      <div>{comment.content}</div>
+      <div>닉네임: {comment.nickname}</div>
+      <div>내용: {comment.body}</div>
     </div>
   );
 };

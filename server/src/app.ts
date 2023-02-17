@@ -8,15 +8,16 @@ import cookieParser from 'cookie-parser';
 
 const origin = process.env.ORIGIN;
 const app = express();
+app.use(cookieParser());
 app.use(
   cors({
     origin,
+    credentials: true,
   })
 );
 app.use(express.json());
 app.use(express.static('public'));
 app.use(morgan('dev'));
-app.use(cookieParser());
 dotenv.config();
 
 app.get('/', (_, res) => res.send('running'));

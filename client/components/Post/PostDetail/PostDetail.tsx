@@ -11,7 +11,6 @@ import Tag from 'components/Tag';
 import PostDetailFooter from './PostDetailFooter';
 
 const PostDetail = ({ post }: { post: PostType }) => {
-  console.log(post);
   const viewerRef = useRef(null);
 
   return (

@@ -2,6 +2,7 @@ import { AppDataSource } from '@/data-source';
 import Post from '@/entities/Post';
 import { validate } from 'class-validator';
 import { Request, Response, Router } from 'express';
+import commentRoutes from './comment.router';
 
 const router = Router();
 
@@ -65,5 +66,7 @@ router.get('/list', getPostList);
 router.get('/:id', getPostDetail);
 router.post('/create', createPost);
 router.delete('/:id', deletePost);
+
+router.use('/:id/comment', commentRoutes);
 
 export default router;

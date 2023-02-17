@@ -3,10 +3,11 @@ import Post from '@/entities/Post';
 import { validate } from 'class-validator';
 import { Request, Response, Router } from 'express';
 import userMiddleware from '@/middlewares/user';
+import authMiddleware from '@/middlewares/auth';
 import Comment from '@/entities/Comment';
 
 const getPostComments = async (req: Request, res: Response) => {
-  const id = Number(req.params.id);
+  const [id, commentId] = [Number(req.params.id), Number(req.params.commentId)];
   try {
     const post = await Post.findOneBy({ id });
     if (post === null) return res.json([]);
@@ -14,7 +15,7 @@ const getPostComments = async (req: Request, res: Response) => {
       where: { postId: post.id },
       order: { createdAt: 'DESC' },
     });
-    return res.json(comments);
+    return res.status(200).json(comments);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: '문제가 발생했습니다.' });
@@ -23,14 +24,15 @@ const getPostComments = async (req: Request, res: Response) => {
 
 const createPostComment = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
-  const data = req.body;
-  console.log(data);
+  const { body } = req.body;
   try {
     const post = await Post.findOneByOrFail({ id });
     const comment = new Comment();
-    comment.body = 'test';
+    comment.body = body;
     comment.user = res.locals.user;
     comment.post = post;
+
+    await comment.save();
     return res.json(comment);
   } catch (error) {
     console.log(error);
@@ -38,9 +40,9 @@ const createPostComment = async (req: Request, res: Response) => {
   }
 };
 
-const router = Router();
+const router = Router({ mergeParams: true });
 
-router.get('/:id', userMiddleware, getPostComments);
-router.post('/:id', userMiddleware, createPostComment);
+router.get('/', userMiddleware, getPostComments);
+router.post('/', userMiddleware, authMiddleware, createPostComment);
 
 export default router;

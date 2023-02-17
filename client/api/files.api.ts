@@ -1,7 +1,7 @@
-import { instance } from './base.api';
+import { Axios } from './base.api';
 
 export const createImageFile = async (formData: FormData, dir?: string) => {
-  const { data } = await instance.post(`files/upload/image/${dir}`, formData, {
+  const { data } = await Axios.post(`files/upload/image/${dir}`, formData, {
     headers: { 'Context-Type': 'multipart/form-data' },
   });
   return data;

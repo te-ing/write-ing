@@ -2,13 +2,13 @@ export interface CommentType {
   id: number;
   writeTime: string;
   author: string;
-  content: string;
+  body: string;
   nickname: string;
   password: string;
 }
 
 export interface CommentEditType {
-  content: string;
+  body: string;
   nickname: string;
   author: string;
   password: string;
