@@ -1,8 +1,9 @@
 'use client';
 
 import { createComment } from 'api/posts.api';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useMutation, useQueryClient } from 'react-query';
 import { CommentEditType } from 'types/comment';
 import styles from './CommentInput.module.scss';
 
@@ -11,29 +12,29 @@ interface CommentInputProps {
 }
 
 const CommentInput = ({ postId }: CommentInputProps) => {
-  const [commentContent, setCommentContent] = useState('');
+  const { register, handleSubmit, reset } = useForm<{ body: string }>();
+  const queryClient = useQueryClient();
+  const commentCreateMutation = useMutation(createComment, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('getComment');
+      reset();
+    },
+  });
 
-  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setCommentContent(e.target.value);
-  };
-
-  const submitComment = async () => {
-    const result = {
-      content: commentContent,
-      nickname: 'string',
-      author: 'string',
-      password: 'string',
-    };
-    const res = await createComment({ postId, body: commentContent });
-    setCommentContent('');
-    return result;
+  const onSubmit = async ({ body }: { body: string }) => {
+    try {
+      const res = commentCreateMutation.mutate({ postId, body });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <div>
-      <textarea placeholder="입력하세요" value={commentContent} onChange={onChange}></textarea>
-      <button onClick={submitComment}>등록</button>
-    </div>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <textarea placeholder="입력하세요" {...register('body')}></textarea>
+      <button type="submit">등록</button>
+    </form>
   );
 };
 
