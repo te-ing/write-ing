@@ -49,3 +49,11 @@ export const createComment = async (payload: createCommentPayload) => {
   );
   return data;
 };
+interface deleteCommentPayload {
+  postId: number;
+  commentId: number;
+}
+export const deleteComment = async (payload: deleteCommentPayload) => {
+  const { data } = await Axios.delete(`post/${payload.postId}/comment/${payload.commentId}`, { withCredentials: true });
+  return data;
+};

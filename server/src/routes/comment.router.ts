@@ -1,10 +1,10 @@
 import { AppDataSource } from '@/data-source';
-import Post from '@/entities/Post';
 import { validate } from 'class-validator';
 import { Request, Response, Router } from 'express';
+import Post from '@/entities/Post';
+import Comment from '@/entities/Comment';
 import userMiddleware from '@/middlewares/user';
 import authMiddleware from '@/middlewares/auth';
-import Comment from '@/entities/Comment';
 
 const getPostComments = async (req: Request, res: Response) => {
   const [id, commentId] = [Number(req.params.id), Number(req.params.commentId)];
@@ -40,9 +40,21 @@ const createPostComment = async (req: Request, res: Response) => {
   }
 };
 
+const deletePostComment = async (req: Request, res: Response) => {
+  try {
+    const results = await AppDataSource.getRepository(Comment).delete(req.params.commentId);
+    return res.status(200).send(results);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: '해당 댓글을 삭제할 수 없습니다.' });
+  }
+};
+
 const router = Router({ mergeParams: true });
 
 router.get('/', userMiddleware, getPostComments);
 router.post('/', userMiddleware, authMiddleware, createPostComment);
+router.post('/', userMiddleware, authMiddleware, createPostComment);
+router.delete('/:commentId', userMiddleware, authMiddleware, deletePostComment);
 
 export default router;

@@ -1,5 +1,6 @@
 export interface CommentType {
   id: number;
+  postId: number;
   writeTime: string;
   author: string;
   body: string;
