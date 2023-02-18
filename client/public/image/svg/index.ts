@@ -1,3 +1,4 @@
-import Logo from './logo.svg';
+import Logo from './Logo.svg';
+import NavArrowIcon from './NavArrowIcon.svg';
 
-export { Logo };
+export { Logo, NavArrowIcon };

@@ -2,8 +2,8 @@
 
 .layout {
   display: flex;
-  max-width: 1024px;
   width: 100%;
+  justify-content: center;
 
   &_wrapper {
     display: flex;

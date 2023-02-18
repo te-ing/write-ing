@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 import PostCard from 'components/Post/PostCard';
+import PostCardWrapper from 'components/Post/PostCardWrapper';
 import { useQuery } from 'react-query';
 import { PostType } from 'types/post';
 import styles from './page.module.scss';
@@ -14,13 +15,5 @@ export default function HomePage() {
 
   const { isLoading, isError, data } = useQuery('posts', getPostList);
 
-  return (
-    <div className={styles.postCard_wrapper}>
-      {isLoading
-        ? 'Loading..'
-        : data.map((post) => {
-            return <PostCard post={post} key={post.id} />;
-          })}
-    </div>
-  );
+  return <div className={styles.postCard_wrapper}>{isLoading ? 'Loading..' : <PostCardWrapper posts={data} />}</div>;
 }
