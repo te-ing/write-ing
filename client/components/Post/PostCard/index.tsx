@@ -1,4 +1,4 @@
-import styles from './postCard.module.scss';
+import styles from './PostCard.module.scss';
 import { PostType } from 'types/post';
 import Link from 'next/link';
 import dayjs from 'dayjs';
