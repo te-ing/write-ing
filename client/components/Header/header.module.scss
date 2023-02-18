@@ -5,24 +5,31 @@
   top: 0;
   left: 0;
   display: flex;
-  gap: 50px;
-  height: 100px;
+  gap: 40px;
+  height: 90px;
   width: 100%;
-  padding: 0 28px;
+  padding: 22px 28px 0 28px;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid colors.$GRAY;
+  border-bottom: 1px solid colors.$ACCENTS2;
   background-color: colors.$WHITE;
 }
 
-.Link {
+.linkWrapper {
+  width: 100%;
   display: flex;
-  gap: 35px;
   height: 60px;
+  margin: 0 30px;
   align-items: center;
   justify-content: space-between;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.link {
+  display: flex;
+  gap: 35px;
   > * {
-    color: colors.$PRIMARY;
+    color: colors.$ACCENTS8;
     font-size: 1.1rem;
     white-space: nowrap;
   }
