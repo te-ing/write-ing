@@ -1,4 +1,5 @@
 import { CommentType } from 'types/comment';
+import { PostType } from 'types/post';
 import { Axios } from './base.api';
 
 interface PostCreate {
@@ -13,6 +14,11 @@ interface PostCreate {
 
 export const getPostList = async () => {
   const { data } = await Axios.get(`post/list`);
+  return data;
+};
+
+export const getPostDetail = async (id: string): Promise<PostType> => {
+  const { data }  = await Axios.get(`post/${id}`);
   return data;
 };
 
