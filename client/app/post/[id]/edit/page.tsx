@@ -1,13 +1,12 @@
 'use client';
 import styles from './edit.module.scss';
-import { createPost } from 'api/posts.api';
+import { editPost } from 'api/posts.api';
 import dynamic from 'next/dynamic';
 import { useForm } from 'react-hook-form';
 import { useEffect, useRef, useState } from 'react';
-import { EditFormValues } from 'types/formValues';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
+import { usePathname, useRouter } from 'next/navigation';
 import { createImageFile } from 'api/files.api';
+import { PostEditForm } from 'types/post';
 
 const ToastEditor = dynamic(() => import('components/ToastEditor'), {
   ssr: false,
@@ -18,15 +17,18 @@ export default function EditPage() {
     handleSubmit,
     formState: { isSubmitting, isDirty, errors },
     setError,
-  } = useForm<EditFormValues>();
+  } = useForm<PostEditForm>();
   const editorRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+  const pathname = usePathname()
+  const postId = pathname.split('/')[2]
+  
   useEffect(() => {
     setIsLoading(false);
   }, []);
 
-  const onSubmit = async ({ title }: EditFormValues) => {
+  const onSubmit = async ({ title }: PostEditForm) => {
     const editorIns = editorRef.current.getInstance();
     const contentHtml = editorIns.getHTML();
     const payload = {
@@ -35,10 +37,10 @@ export default function EditPage() {
       content: contentHtml,
       status: 'active',
     };
-    const response = await createPost(payload);
-    router.push(`${process.env.NEXT_PUBLIC_CLIENT_BASE_URL}/post/${response.id}`);
+    const response = await editPost(postId, payload);
+    router.push(`${process.env.NEXT_PUBLIC_CLIENT_BASE_URL}/post/${postId}`);
+    console.log(response)
   };
-
   const uploadImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files === null) return;
     const baseUrl = process.env.NEXT_PUBLIC_SERVER_BASE_URL;

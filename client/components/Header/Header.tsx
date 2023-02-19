@@ -17,7 +17,7 @@ const Header = () => {
         </div>
         <div className={styles.link}>
           <Link href="/login">Login</Link>
-          <Link href="/edit">Edit</Link>
+          <Link href="/write">Write</Link>
         </div>
       </div>
     </header>

@@ -23,6 +23,16 @@ export const createPost = async (payload: PostCreate) => {
   return data;
 };
 
+
+export const editPost = async (id: string, payload: PostCreate) => {
+  const { data } = await Axios.patch(`post/${id}`, {
+      body: payload
+    }, {
+    withCredentials: true
+  });
+  return data;
+};
+
 export const deletePost = async (id: number) => {
   const { data } = await Axios.delete(`post/${id}`);
   return data;
