@@ -1,7 +1,6 @@
 import { AppDataSource } from '@/data-source';
 import Post from '@/entities/Post';
 import { authMiddleware, userMiddleware } from '@/middlewares';
-import { validate } from 'class-validator';
 import { Request, Response, Router } from 'express';
 import commentRoutes from './comment.router';
 
@@ -61,16 +60,22 @@ const patchPost = async (req: Request, res: Response) => {
   }
 
   try {
-    const post = await Post.findOneByOrFail({ id: postId });
-    post.title = title;
-    post.subtitle = subtitle;
-    post.nickname = nickname;
-    post.status = status;
-    post.content = content;
-    post.category = category;
-    post.tag = tag;
+    const post = {
+      ...(await Post.findOneByOrFail({ id: postId })),
+      title,
+      subtitle,
+      nickname,
+      status,
+      content,
+      category,
+      tag,
+    };
 
-    await post.save();
+    await AppDataSource.createQueryBuilder()
+      .update(Post)
+      .set({ title, subtitle, nickname, status, content, category, tag })
+      .where('id = :id', { id: postId })
+      .execute();
 
     return res.json(post);
   } catch (error) {
@@ -78,7 +83,6 @@ const patchPost = async (req: Request, res: Response) => {
     return res.status(500).json({ error: '문제가 발생했습니다.' });
   }
 };
-
 
 const deletePost = async (req: Request, res: Response) => {
   try {

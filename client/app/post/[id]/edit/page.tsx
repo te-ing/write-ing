@@ -1,6 +1,6 @@
 'use client';
 import styles from './edit.module.scss';
-import { createPost, getPostDetail } from 'api/posts.api';
+import { editPost, getPostDetail } from 'api/posts.api';
 import dynamic from 'next/dynamic';
 import { useForm } from 'react-hook-form';
 import { useEffect, useRef, useState } from 'react';
@@ -28,7 +28,7 @@ export default function EditPage() {
       content: contentHtml,
       status: 'active',
     };
-    const response = await createPost(payload);
+    const response = await editPost(postId, payload);
     router.push(`${process.env.NEXT_PUBLIC_CLIENT_BASE_URL}/post/${response.id}`);
   };
 

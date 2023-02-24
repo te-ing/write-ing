@@ -18,7 +18,7 @@ export const getPostList = async () => {
 };
 
 export const getPostDetail = async (id: string): Promise<PostType> => {
-  const { data }  = await Axios.get(`post/${id}`);
+  const { data } = await Axios.get(`post/${id}`);
   return data;
 };
 
@@ -29,13 +29,16 @@ export const createPost = async (payload: PostCreate) => {
   return data;
 };
 
-
 export const editPost = async (id: string, payload: PostCreate) => {
-  const { data } = await Axios.patch(`post/${id}`, {
-      body: payload
-    }, {
-    withCredentials: true
-  });
+  const { data } = await Axios.patch(
+    `post/${id}`,
+    {
+      payload,
+    },
+    {
+      withCredentials: true,
+    }
+  );
   return data;
 };
 
