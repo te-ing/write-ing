@@ -1,5 +1,5 @@
 'use client';
-import styles from './Write.module.scss';
+import styles from './write.module.scss';
 import { createPost } from 'api/posts.api';
 import dynamic from 'next/dynamic';
 import { useForm } from 'react-hook-form';
@@ -7,10 +7,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createImageFile } from 'api/files.api';
 import { PostEditForm } from 'types/post';
+import ToastEditor from 'components/ToastEditor';
+import { CommonButton } from 'components/common/inputs/CommonButton/CommonButton';
 
-const ToastEditor = dynamic(() => import('components/ToastEditor'), {
-  ssr: false,
-});
 export default function WritePage() {
   const {
     register,
@@ -19,11 +18,7 @@ export default function WritePage() {
     setError,
   } = useForm<PostEditForm>();
   const editorRef = useRef(null);
-  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
 
   const onSubmit = async ({ title }: PostEditForm) => {
     const editorIns = editorRef.current.getInstance();
@@ -63,19 +58,15 @@ export default function WritePage() {
           id="title"
           {...register('title')}
           type="text"
-          className={styles.title_input}
+          className={styles.titleInput}
           placeholder="제목을 입력하세요"
         />
       </div>
       <input id="image" type="file" onChange={uploadImage} />
-      {isLoading ? (
-        ''
-      ) : (
-        <div className={styles.editor}>
-          <ToastEditor editorRef={editorRef} />
-        </div>
-      )}
-      <button>click</button>
+      <div className={styles.editor}>
+        <ToastEditor editorRef={editorRef} />
+      </div>
+      <CommonButton text="작성" type="submit" />
     </form>
   );
 }
