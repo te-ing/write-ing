@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { getPublicKey, userRegister } from 'api/auth.api';
-import { rsaEncode } from 'utiles/encode';
+import { rsaEncode } from 'utils/encode';
 import { RegisterForm } from 'types/user';
 
 export default function RegisterPage() {

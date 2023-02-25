@@ -3,7 +3,7 @@ import styles from './login.module.scss';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { userLogin } from 'api/auth.api';
-import { rsaEncode } from 'utiles/encode';
+import { rsaEncode } from 'utils/encode';
 import { LoginForm } from 'types/user';
 
 export default function LoginPage() {
