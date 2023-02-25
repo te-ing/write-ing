@@ -3,6 +3,7 @@
 import '@styles/globalStyles.scss';
 import Header from 'components/Header/Header';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import ErrorBoundary from 'utils/ErrorBoundary';
 import styles from './layout.module.scss';
 
 const queryClient = new QueryClient({
@@ -21,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className={styles.layout_wrapper}>
             <div className={styles.layout}>
               <Header />
-              {children}
+              <ErrorBoundary>{children}</ErrorBoundary>
             </div>
           </div>
         </QueryClientProvider>
