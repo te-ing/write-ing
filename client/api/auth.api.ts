@@ -1,3 +1,4 @@
+import { isAxiosError } from 'axios';
 import { LoginForm, RegisterForm } from 'types/user';
 import { Axios } from './base.api';
 
@@ -7,8 +8,12 @@ export const getPublicKey = async () => {
 };
 
 export const userLogin = async ({ email, password }: LoginForm) => {
-  const response = await Axios.post(`auth/login`, { email, password }, { withCredentials: true });
-  return response;
+  try {
+    const response = await Axios.post(`auth/login`, { email, password }, { withCredentials: true });
+    return response;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const userRegister = async ({ email, nickname, password }: RegisterForm) => {

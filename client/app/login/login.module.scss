@@ -1,3 +1,5 @@
+@use '@/styles/constants/colors';
+
 .form_wrapper {
   width: 100vw;
   margin-top: 20vh;
@@ -5,6 +7,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  gap: 10px;
 
   input {
     border: 1px solid lightgray;
@@ -12,15 +15,25 @@
     height: 2rem;
     border-radius: 8px;
     padding: 2px 4px;
-    margin-top: 10px;
   }
 
   button {
-    margin-top: 20px;
     border: 1px solid lightblue;
     width: 80px;
     height: 24px;
     border-radius: 20px;
     color: lightblue;
+  }
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  color: colors.$RED;
+  visibility: hidden;
+
+  &Visible {
+    visibility: visible;
   }
 }

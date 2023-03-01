@@ -4,7 +4,7 @@ const baseURL = `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api`;
 
 export const Axios = axios.create({
   baseURL: `${baseURL}/`,
-  validateStatus: (status) => status < 500,
+  // validateStatus: (status) => status < 500,
   timeout: 10000,
 });
 

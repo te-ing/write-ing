@@ -55,8 +55,7 @@ const register = async (req: Request, res: Response) => {
     await user.save();
     return res.json(user);
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error });
+    return res.status(500).json(error);
   }
 };
 
@@ -73,14 +72,14 @@ const login = async (req: Request, res: Response) => {
     // 디비에서 유저 찾기
     const user = await User.findOneBy({ email });
 
-    if (!user) return res.status(404).json({ email: '사용자가 등록되지 않았습니다.' });
+    if (!user) return res.status(404).json('사용자가 등록되지 않았습니다.');
 
     // 유저가 있다면 비밀번호 비교하기
     const passwordMatches = await bcrypt.compare(decodeRSA(password), user.password);
 
     // 비밀번호가 다르다면 에러 보내기
     if (!passwordMatches) {
-      return res.status(401).json({ password: '비밀번호가 잘못되었습니다.' });
+      return res.status(401).json('비밀번호가 잘못되었습니다.');
     }
     // 비밀번호가 맞다면 토큰 생성
     const token = jwt.sign({ email, nickname: user.nickname }, process.env.JWT_SECRET, { expiresIn: '6h' });
