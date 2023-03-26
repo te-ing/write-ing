@@ -19,7 +19,8 @@ const Comments = ({ post }: CommentsProps) => {
 
   return (
     <div>
-      댓글창
+      <h2 className={styles.title}>Comment</h2>
+      <h3>댓글: {comments?.length}개</h3>
       <CommentInput postId={post.id} />
       {isLoading ? (
         <div>loading..</div>

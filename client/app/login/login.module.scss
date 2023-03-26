@@ -1,4 +1,5 @@
 @use '@/styles/constants/colors';
+@use '@styles/base/mixin';
 
 .form_wrapper {
   width: 100vw;
@@ -10,11 +11,9 @@
   gap: 10px;
 
   input {
-    border: 1px solid lightgray;
+    @include mixin.smInput;
     width: 200px;
     height: 2rem;
-    border-radius: 8px;
-    padding: 2px 4px;
   }
 
   button {

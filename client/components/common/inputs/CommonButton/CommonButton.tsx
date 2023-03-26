@@ -1,32 +1,33 @@
 /* eslint-disable react/button-has-type */
 import React, { ComponentProps } from 'react';
-import classNames from 'classnames';
+import cx from 'classnames';
 import styles from './CommonButton.module.scss';
 
 interface ICommonButtonProps extends ComponentProps<'button'> {
   text?: string;
-  size?: number;
+  height?: string;
+  width?: string;
   color?: 'white' | 'black';
-  borderRadius?: number;
+  borderRadius?: string;
   children?: React.ReactNode;
 }
 
 export function CommonButton({
   text,
-  size,
-  borderRadius = 12,
+  height,
+  width,
+  borderRadius = '12px',
   color = 'white',
   type = 'button',
   children,
+  className,
   ...props
 }: ICommonButtonProps) {
-  const height = size;
-  const fontSize = size && size / 2;
   return (
     <button
-      className={classNames(styles.button, `${styles[color]}`)}
+      className={cx(styles.button, `${styles[color]}`, className)}
       type={type}
-      style={{ borderRadius: `${borderRadius}px`, height, fontSize }}
+      style={{ borderRadius: `${borderRadius}`, height, width }}
       {...props}
     >
       {text || children}

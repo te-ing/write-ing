@@ -3,7 +3,6 @@
 import { deleteComment } from 'api/posts.api';
 import { useMutation, useQueryClient } from 'react-query';
 import { CommentType } from 'types/comment';
-import styles from './Comment.module.scss';
 
 const Comment = ({ comment }: { comment: CommentType }) => {
   const queryClient = useQueryClient();
@@ -16,7 +15,6 @@ const Comment = ({ comment }: { comment: CommentType }) => {
   const handleDeleteComment = () => {
     commentDeleteMutation.mutate({ postId: comment.postId, commentId: comment.id });
   };
-
   return (
     <div>
       댓글

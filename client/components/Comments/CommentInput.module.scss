@@ -1,0 +1,25 @@
+@use '@styles/constants/colors';
+@use '@styles/base/mixin';
+
+.commentForm {
+  > textarea {
+    width: 100%;
+    border: 1px solid colors.$ACCENTS3;
+    padding: 4px;
+    height: 84px;
+    border-radius: 8px;
+    resize: none;
+  }
+}
+
+.submitWrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+
+  > input {
+    @include mixin.smInput;
+  }
+}
