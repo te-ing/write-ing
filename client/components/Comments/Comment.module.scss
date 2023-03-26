@@ -1,0 +1,56 @@
+@use '@styles/constants/colors';
+
+.wrapper {
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 8px 24px;
+  border-bottom: 1px solid colors.$ACCENTS2;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 8px 0;
+  > button {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.infoWrapper {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  .date {
+    font-size: 12px;
+    color: colors.$ACCENTS5;
+  }
+}
+
+.toggleWrapper {
+  position: relative;
+
+  > button {
+    padding: 0 8px;
+  }
+
+  .toggleItem {
+    position: absolute;
+    right: 4px;
+    top: 8px;
+  }
+}
+
+.content {
+  line-height: 1.5;
+  color: colors.$ACCENTS8;
+}
+
+.hidden {
+  display: none;
+}
