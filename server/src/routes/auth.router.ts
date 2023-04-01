@@ -27,7 +27,7 @@ const publicKey = async (_: Request, res: Response) => {
 };
 
 const register = async (req: Request, res: Response) => {
-  const { email, password, nickname } = req.body;
+  const { email, encodedPassword, nickname } = req.body;
   try {
     let errors: any = {};
 
@@ -44,7 +44,7 @@ const register = async (req: Request, res: Response) => {
     const user = new User();
     user.email = email;
     user.nickname = nickname;
-    user.password = encodeHash(decodeRSA(password));
+    user.password = encodeHash(decodeRSA(encodedPassword));
 
     // 엔티티에 정해 놓은 조건으로 user 데이터의 유효성 검사를 해줌.
     errors = await validate(user);
@@ -60,11 +60,11 @@ const register = async (req: Request, res: Response) => {
 };
 
 const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, encodedPassword } = req.body;
   try {
     let errors: any = {};
     // 비워져있다면 에러를 프론트엔드로 보내주기
-    if (isEmpty(password)) errors.password = '비밀번호는 비워둘 수 없습니다';
+    if (isEmpty(encodedPassword)) errors.password = '비밀번호는 비워둘 수 없습니다';
     if (Object.keys(errors).length > 0) {
       return res.status(400).json(errors);
     }
@@ -75,7 +75,7 @@ const login = async (req: Request, res: Response) => {
     if (!user) return res.status(404).json('사용자가 등록되지 않았습니다.');
 
     // 유저가 있다면 비밀번호 비교하기
-    const passwordMatches = await bcrypt.compare(decodeRSA(password), user.password);
+    const passwordMatches = await bcrypt.compare(decodeRSA(encodedPassword), user.password);
 
     // 비밀번호가 다르다면 에러 보내기
     if (!passwordMatches) {

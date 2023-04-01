@@ -18,8 +18,7 @@ export default function RegisterPage() {
 
   const onSubmit = async ({ email, password, checkPassword, nickname }: RegisterForm) => {
     if (password !== checkPassword) return;
-    const encodedPassword = await rsaEncode(password);
-    const res = await userRegister({ email, nickname, password: encodedPassword });
+    const res = await userRegister({ email, nickname, password });
     if (res.status === 200) router.push(`/home`);
   };
   return (

@@ -21,9 +21,8 @@ export default function LoginPage() {
   const loginMutation = useMutation(userLogin);
 
   const onSubmit = async ({ email, password }: LoginForm) => {
-    const encodedPassword = await rsaEncode(password);
     loginMutation.mutate(
-      { email, password: encodedPassword },
+      { email, password },
       {
         onSuccess: () => router.push('/home'),
         onError: (error) => {
