@@ -52,7 +52,7 @@ const deletePostComment = async (req: Request, res: Response) => {
 
 const router = Router({ mergeParams: true });
 
-router.get('/', userMiddleware, getPostComments);
+router.get('/', getPostComments);
 router.post('/', userMiddleware, authMiddleware, createPostComment);
 router.post('/', userMiddleware, authMiddleware, createPostComment);
 router.delete('/:commentId', userMiddleware, authMiddleware, deletePostComment);
