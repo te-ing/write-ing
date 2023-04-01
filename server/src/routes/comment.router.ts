@@ -44,14 +44,14 @@ const createPostComment = async (req: Request, res: Response) => {
 };
 
 const deletePostComment = async (req: Request, res: Response) => {
-  const { password } = req.body;
+  const { encodedPassword } = req.body;
   const id = Number(req.params.commentId);
 
   try {
     const comment = await Comment.findOneBy({ id });
     if (!comment) return res.status(404).json('해당 댓글이 존재하지 않습니다.');
 
-    const passwordMatches = await bcrypt.compare(decodeRSA(password), comment.password);
+    const passwordMatches = await bcrypt.compare(decodeRSA(encodedPassword), comment.password);
     if (!passwordMatches) return res.status(401).json('비밀번호가 잘못되었습니다.');
 
     const results = await AppDataSource.getRepository(Comment).delete(id);
