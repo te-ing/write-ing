@@ -28,7 +28,7 @@ const getPostList = async (req: Request, res: Response) => {
 };
 
 const createPost = async (req: Request, res: Response) => {
-  const { title, subtitle, nickname, status, content, category, tag } = req.body.payload;
+  const { title, subtitle, nickname, status, content, category, tag } = req.body;
   if (title.trim() === '') {
     return res.status(400).json({ title: '제목은 비워둘 수 없습니다.' });
   }
@@ -54,7 +54,7 @@ const createPost = async (req: Request, res: Response) => {
 
 const patchPost = async (req: Request, res: Response) => {
   const postId = Number(req.params.id);
-  const { title, subtitle, nickname, status, content, category, tag } = req.body.payload;
+  const { title, subtitle, nickname, status, content, category, tag } = req.body;
   if (title.trim() === '') {
     return res.status(400).json({ title: '제목은 비워둘 수 없습니다.' });
   }

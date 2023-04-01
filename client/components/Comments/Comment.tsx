@@ -20,7 +20,7 @@ const Comment = ({ comment }: { comment: CommentType }) => {
   });
 
   const handleDeleteComment = () => {
-    commentDeleteMutation.mutate({ postId: comment.postId, commentId: comment.id });
+    commentDeleteMutation.mutate({ postId: comment.postId, commentId: comment.id, password: '테스트' });
     setIsToggleOn(false);
   };
   return (

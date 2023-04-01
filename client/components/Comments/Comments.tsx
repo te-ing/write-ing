@@ -20,13 +20,13 @@ const Comments = ({ post }: CommentsProps) => {
   return (
     <div>
       <h2 className={styles.title}>Comment</h2>
-      <h3>댓글: {comments?.length}개</h3>
+      <h3>댓글: {comments?.length || 0}개</h3>
       <CommentInput postId={post.id} />
       {isLoading ? (
         <div>loading..</div>
       ) : (
         <div>
-          {comments.map((comment) => {
+          {comments?.map((comment) => {
             return (
               <div key={comment.id}>
                 <Comment comment={comment} />

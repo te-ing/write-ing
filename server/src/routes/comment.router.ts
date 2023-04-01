@@ -5,6 +5,8 @@ import Post from '@/entities/Post';
 import Comment from '@/entities/Comment';
 import userMiddleware from '@/middlewares/user';
 import authMiddleware from '@/middlewares/auth';
+import { decodeRSA, encodeHash } from '@/utils/security';
+import bcrypt from 'bcryptjs';
 
 const getPostComments = async (req: Request, res: Response) => {
   const [id, commentId] = [Number(req.params.id), Number(req.params.commentId)];
@@ -24,25 +26,35 @@ const getPostComments = async (req: Request, res: Response) => {
 
 const createPostComment = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
-  const { body } = req.body;
+  const { body, nickname, encodedPassword } = req.body;
+
   try {
     const post = await Post.findOneByOrFail({ id });
     const comment = new Comment();
     comment.body = body;
-    comment.user = res.locals.user;
+    comment.password = encodeHash(decodeRSA(encodedPassword));
+    comment.nickname = nickname;
     comment.post = post;
-
     await comment.save();
     return res.json(comment);
   } catch (error) {
     console.log(error);
-    return res.status(404).json({ error: '게시물을 찾을 수 없습니다' });
+    return res.status(500).json({ error: '댓글 작성 중 오류가 발생했습니다.' });
   }
 };
 
 const deletePostComment = async (req: Request, res: Response) => {
+  const { password } = req.body;
+  const id = Number(req.params.commentId);
+
   try {
-    const results = await AppDataSource.getRepository(Comment).delete(req.params.commentId);
+    const comment = await Comment.findOneBy({ id });
+    if (!comment) return res.status(404).json('해당 댓글이 존재하지 않습니다.');
+
+    const passwordMatches = await bcrypt.compare(decodeRSA(password), comment.password);
+    if (!passwordMatches) return res.status(401).json('비밀번호가 잘못되었습니다.');
+
+    const results = await AppDataSource.getRepository(Comment).delete(id);
     return res.status(200).send(results);
   } catch (error) {
     console.log(error);
@@ -53,8 +65,7 @@ const deletePostComment = async (req: Request, res: Response) => {
 const router = Router({ mergeParams: true });
 
 router.get('/', getPostComments);
-router.post('/', userMiddleware, authMiddleware, createPostComment);
-router.post('/', userMiddleware, authMiddleware, createPostComment);
-router.delete('/:commentId', userMiddleware, authMiddleware, deletePostComment);
+router.post('/', createPostComment);
+router.delete('/:commentId', deletePostComment);
 
 export default router;

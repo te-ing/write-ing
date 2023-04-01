@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, UpdateDateColumn } from 'typeorm';
 import BaseEntity from './Entity';
 import Post from './Post';
 import { User } from './User';
@@ -14,15 +14,14 @@ export default class Comment extends BaseEntity {
   @Column({ default: 'public' })
   status: string;
 
-  @ManyToOne(() => User)
-  @JoinColumn({ name: 'nickname', referencedColumnName: 'nickname' })
-  user: User;
-
   @Column()
   postId: number;
 
   @ManyToOne(() => Post, (post) => post.comments, { nullable: false })
   post: Post;
+
+  @Column()
+  password: string;
 
   @CreateDateColumn()
   createdAt: Date;

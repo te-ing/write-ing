@@ -1,6 +1,7 @@
 import { CommentType } from 'types/comment';
 import { PostType } from 'types/post';
 import { Axios } from './base.api';
+import { rsaEncode } from 'utils/encode';
 
 interface PostCreate {
   title: string;
@@ -24,7 +25,7 @@ export const getPostDetail = async (id: string): Promise<PostType> => {
 
 export const createPost = async (payload: PostCreate) => {
   const { data } = await Axios.post(`post/create`, {
-    payload,
+    ...payload,
   });
   return data;
 };
@@ -33,7 +34,7 @@ export const editPost = async (id: string, payload: PostCreate) => {
   const { data } = await Axios.patch(
     `post/${id}`,
     {
-      payload,
+      ...payload,
     },
     {
       withCredentials: true,
@@ -56,13 +57,18 @@ export const getComment = async (postId: number): Promise<CommentType[]> => {
 
 interface createCommentPayload {
   postId: number;
+  nickname: string;
+  password: string;
   body: string;
 }
-export const createComment = async (payload: createCommentPayload) => {
+export const createComment = async ({ body, nickname, password, postId }: createCommentPayload) => {
+  const encodedPassword = await rsaEncode(password);
   const { data } = await Axios.post(
-    `post/${payload.postId}/comment`,
+    `post/${postId}/comment`,
     {
-      body: payload.body,
+      nickname,
+      encodedPassword,
+      body,
     },
     { withCredentials: true }
   );
@@ -71,8 +77,15 @@ export const createComment = async (payload: createCommentPayload) => {
 interface deleteCommentPayload {
   postId: number;
   commentId: number;
+  password: string;
 }
-export const deleteComment = async (payload: deleteCommentPayload) => {
-  const { data } = await Axios.delete(`post/${payload.postId}/comment/${payload.commentId}`, { withCredentials: true });
+export const deleteComment = async ({ commentId, password, postId }: deleteCommentPayload) => {
+  const encodedPassword = await rsaEncode(password);
+  const { data } = await Axios.delete(`post/${postId}/comment/${commentId}`, {
+    data: {
+      encodedPassword,
+    },
+    withCredentials: true,
+  });
   return data;
 };
