@@ -11,7 +11,7 @@ const PostCard = ({ post }: { post: PostType }) => {
         <h3>{post.title}</h3>
       </div>
       <div className={styles.postContent}>
-        <p>{post.content.slice(0, 50)}</p>
+        <p>{post.content.replaceAll(/(<([^>]+)>)/ig, " ").slice(0, 50)}</p>
       </div>
       <div className={styles.postFooter}>
         {dayjs(post.createdAt).format('YYYY. MM. DD')}
