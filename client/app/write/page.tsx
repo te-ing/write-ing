@@ -20,7 +20,7 @@ export default function WritePage() {
   const editorRef = useRef(null);
   const router = useRouter();
 
-  const onSubmit = async ({ title }: PostEditForm) => {
+  const onSubmit = async ({ title, subtitle, tag }: PostEditForm) => {
     const editorIns = editorRef.current.getInstance();
     const contentHtml = editorIns.getHTML();
     const payload = {
@@ -28,6 +28,8 @@ export default function WritePage() {
       nickname: '테스트유저',
       content: contentHtml,
       status: 'active',
+      subtitle,
+      tag,
     };
     const response = await createPost(payload);
     router.push(`${process.env.NEXT_PUBLIC_CLIENT_BASE_URL}/post/${response.id}`);
@@ -53,13 +55,28 @@ export default function WritePage() {
 
   return (
     <form className={styles.wrapper} onSubmit={handleSubmit(onSubmit)}>
-      <div className={styles.title}>
+       
+      <div className={styles.titleWrapper}>
+        <input
+          id="tag"
+          {...register('tag')}
+          type="text"
+          className={styles.tagInput}
+          placeholder="태그"
+        />
         <input
           id="title"
           {...register('title')}
           type="text"
           className={styles.titleInput}
-          placeholder="제목을 입력하세요"
+          placeholder="글 제목"
+        />
+        <input
+          id="subtitle"
+          {...register('subtitle')}
+          type="text"
+          className={styles.subtitleInput}
+          placeholder="서브타이틀"
         />
       </div>
       <input id="image" type="file" onChange={uploadImage} />

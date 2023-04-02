@@ -15,7 +15,7 @@ export interface PostType {
 
 export interface PostEditType {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   content: string;
   status: string;
   tag?: string;

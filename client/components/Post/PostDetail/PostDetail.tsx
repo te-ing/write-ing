@@ -16,9 +16,9 @@ const PostDetail = ({ post }: { post: PostType }) => {
   return (
     <div className={styles.wrapper}>
       <div aria-label="content">
-        <Tag label="태그 선택" />
+        {post.tag && <Tag label={post.tag} />}
         <h2 className={styles.title}>{post.title}</h2>
-        <h4 className={styles.subTitle}>{post.subtitle || '서브타이틀입니다'}</h4>
+        {post.subtitle && <h4 className={styles.subTitle}>{post.subtitle}</h4>}
 
         <Viewer ref={viewerRef} initialValue={post.content} />
       </div>
