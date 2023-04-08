@@ -5,6 +5,8 @@ import Header from 'components/Header/Header';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import ErrorBoundary from 'utils/ErrorBoundary';
 import styles from './layout.module.scss';
+import { RecoilRoot } from 'recoil';
+import Modal from 'components/modal/Modal';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,16 +18,19 @@ const queryClient = new QueryClient({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body>
-        <QueryClientProvider client={queryClient}>
-          <div className={styles.layout_wrapper}>
-            <div className={styles.layout}>
-              <Header />
-              <ErrorBoundary>{children}</ErrorBoundary>
+    <html lang="ko">
+      <body id="body">
+        <RecoilRoot>
+          <QueryClientProvider client={queryClient}>
+            <div className={styles.layout_wrapper}>
+              <div className={styles.layout}>
+                <Header />
+                <ErrorBoundary>{children}</ErrorBoundary>
+              </div>
             </div>
-          </div>
-        </QueryClientProvider>
+            <Modal />
+          </QueryClientProvider>
+        </RecoilRoot>
       </body>
     </html>
   );
