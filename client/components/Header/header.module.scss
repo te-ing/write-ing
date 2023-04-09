@@ -1,5 +1,4 @@
-@use '@styles/constants/colors';
-@use '@/styles/constants/levels';
+@use '@/styles/constants/total';
 
 .header {
   position: fixed;
@@ -12,9 +11,9 @@
   padding: 22px 28px 0 28px;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid colors.$ACCENTS2;
-  background-color: colors.$WHITE;
-  z-index: levels.$HEADER;
+  border-bottom: 1px solid total.$ACCENTS2;
+  background-color: total.$WHITE;
+  z-index: total.$HEADER;
 }
 
 .linkWrapper {
@@ -31,7 +30,7 @@
   display: flex;
   gap: 35px;
   > * {
-    color: colors.$ACCENTS8;
+    color: total.$ACCENTS8;
     font-size: 1.1rem;
     white-space: nowrap;
   }
