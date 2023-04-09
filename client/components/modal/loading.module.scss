@@ -1,4 +1,5 @@
 @use '@/styles/constants/colors';
+@use '@/styles/constants/levels';
 
 .wrapper {
   position: absolute;
@@ -6,6 +7,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
+  z-index: levels.$MODAL;
 }
 
 .circle {
@@ -21,6 +23,7 @@
 
   &::before {
     position: absolute;
+    z-index: levels.$MODAL;
     top: 50%;
     left: 50%;
     width: 100px;

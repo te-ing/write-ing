@@ -1,10 +1,11 @@
 @use '@/styles/constants/colors';
+@use '@/styles/constants/levels';
 
 .modalWrapper {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: levels.$MODAL;
   width: 100vw;
   height: 100vh;
   display: flex;
