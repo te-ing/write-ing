@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './recoilModal.module.scss';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { modalAtom } from 'recoil/modal';
-import Loading from './Loading';
+import LoadingModal from './LoadingModal';
 
 export interface ModalPropsType {}
 
@@ -15,7 +15,7 @@ const RecoilModal = () => {
   };
 
   if (typeof window === 'undefined' || !isShowing) return;
-  if (type === 'loading') return <Loading />;
+  if (type === 'loading') return <LoadingModal />;
   return (
     <div onClick={handleHideModal} className={styles.modalWrapper}>
       test
