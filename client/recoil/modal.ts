@@ -1,6 +1,11 @@
 import { atom } from 'recoil';
 
-export const modalAtom = atom({
+type TModal = {
+  isShowing: boolean;
+  type?: 'loading';
+};
+
+export const modalAtom = atom<TModal>({
   key: 'modalAtom',
   default: {
     isShowing: false,

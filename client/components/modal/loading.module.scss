@@ -1,0 +1,35 @@
+@use '@/styles/constants/colors';
+
+.wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.circle {
+  @keyframes load {
+    0% {
+      transform: translateX(-50%) translateY(-50%) rotate(0deg);
+    }
+
+    100% {
+      transform: translateX(-50%) translateY(-50%) rotate(360deg);
+    }
+  }
+
+  &::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    content: ' ';
+    border: 10px solid colors.$ACCENTS2;
+    border-top: 10px solid colors.$ACCENTS3;
+    border-radius: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    animation: load 1s linear infinite;
+  }
+}

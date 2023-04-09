@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import ErrorBoundary from 'utils/ErrorBoundary';
 import styles from './layout.module.scss';
 import { RecoilRoot } from 'recoil';
-import Modal from 'components/modal/Modal';
+import RecoilModal from 'components/modal/RecoilModal';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <ErrorBoundary>{children}</ErrorBoundary>
               </div>
             </div>
-            <Modal />
+            <RecoilModal />
           </QueryClientProvider>
         </RecoilRoot>
       </body>
