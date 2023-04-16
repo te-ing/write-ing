@@ -29,6 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </div>
             </div>
             <RecoilModal />
+            <div id="portal" />
           </QueryClientProvider>
         </RecoilRoot>
       </body>
