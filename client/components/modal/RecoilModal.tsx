@@ -2,23 +2,24 @@ import React from 'react';
 import styles from './recoilModal.module.scss';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { modalAtom } from 'recoil/modal';
-import LoadingModal from './LoadingModal';
-
-export interface ModalPropsType {}
+import cx from 'classnames';
+import { LoadingModal } from './index';
 
 const RecoilModal = () => {
-  const [{ isShowing, type }, setModalState] = useRecoilState(modalAtom);
+  const [{ isShowing, type, overlay, outsideClick }, setModalState] = useRecoilState(modalAtom);
   const resetModal = useResetRecoilState(modalAtom);
+  let innerModal = <div />;
 
-  const handleHideModal = () => {
-    resetModal();
-  };
+  const handleHideModal = () => resetModal();
 
-  if (typeof window === 'undefined' || !isShowing) return;
-  if (type === 'loading') return <LoadingModal />;
+  const handleClickOutside = () => (outsideClick ? handleHideModal() : '');
+
+  if (typeof window === 'undefined' || !isShowing || type === 'none') return;
+  if (type === 'loading') innerModal = <LoadingModal />;
+
   return (
-    <div onClick={handleHideModal} className={styles.modalWrapper}>
-      test
+    <div onClick={handleClickOutside} className={cx(styles.modalWrapper, styles[`overlay${overlay}`])}>
+      {innerModal}
     </div>
   );
 };

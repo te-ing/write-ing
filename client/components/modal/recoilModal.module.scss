@@ -11,5 +11,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.35);
+}
+
+.overlay {
+  &black {
+    background-color: rgba(0, 0, 0, 0.35);
+  }
 }
